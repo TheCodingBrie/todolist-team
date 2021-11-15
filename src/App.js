@@ -3,42 +3,68 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
+import portrait from "./images/cancel.png"
+
+const date = new Date();
+
+
 
 const item = {
   id: v4(),
-  name: "Clean the house"
-  category: 
-  importance:
-  deadline:
-  user:
+  title: "Clean the house",
+  categorie: "sport",
+  importance: "low",
+  deadline: date.getDate(),
+  user: {
+    name: "Jenny",
+    picture: {portrait}
+  }
 }
 
 const item2 = {
   id: v4(),
-  name: "Wash dishes"
+  title: "Wash dishes",
+  categorie: "",
+  importance: "medium",
+  deadline: date.getDate(),
+  user: {
+    name: "Valerio",
+    picture: {portrait}
+  }
 }
 
 const item3 = {
   id: v4(),
-  name: "Grocery Shopping"
+  title: "Grocery Shopping",
+  categorie: "",
+  importance: "high",
+  deadline: date.getDate(),
+  user: {
+    name: "Guillaume",
+    picture: {portrait}
+  }
 }
 
 function App() {
   /*to add a new task*/
-  const [text, setText] = useState("")
+  const [title, setTitle] = useState("")
+  const [categorie, setCategorie] = useState("");
+  const [importance, setImportance] = useState("low");
+  const [deadline, setDeadline] = useState(null);
+  const [user, setUser] = useState([]);
 
   /*setting up the data structure*/
   const [state, setstate] = useState({
     "todo": {
-      title: "Todo",
+      section: "Todo",
       items: [item]
     },
     "in-progress": {
-      title: "In Progress",
+      section: "In Progress",
       items: [item2]
     },
     "done": {
-      title: "Completed",
+      section: "Completed",
       items: [item3]
     }
   })
@@ -76,7 +102,6 @@ function App() {
     })
   }
 
-
   const addItem = () => {
     setstate(prev => {
       return {
@@ -84,11 +109,15 @@ function App() {
         ...prev,
         /*set todo equal to the data structure that we're using*/
         todo: {
-          title: "Todo",
+          section: "Todo",
           items: [
             {
               id: v4(),
-              name: text
+              title: title,
+              categorie: categorie,
+              importrance: importance,
+              deadline: deadline,
+              user: user
             },
             /*copy previous items and add the new item to it*/
             ...prev.todo.items
@@ -97,7 +126,7 @@ function App() {
       }
     })
     /*clearing the entered text in the input field*/
-    setText("")
+    setTitle("")
   }
 
   return (
@@ -108,14 +137,31 @@ function App() {
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
     <div className="App">
       <div className="additems">
-        <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+        <span>Task: </span>
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <span>Categorie: </span>
+        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
+        <label for="importance">Task importance: </label>
+        <select id="importance" name="importance">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <span>Due for: </span>
+        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+        <label for="user">User: </label>
+        <select id="user" name="user">
+          <option value="user1">{item.user.name}</option>
+          <option value="user2">{item2.user.name}</option>
+          <option value="user3">{item3.user.name}</option>
+        </select>
         <button onClick={addItem}>Add</button>
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
           return (
             <div key={key} className={"column"}>
-              <h3>{data.title}</h3>
+              <h3>{data.section}</h3>
               <Droppable droppableId={key}>
                 {(provided, snapshot) => {
                   return (
@@ -136,7 +182,12 @@ function App() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                 >
-                                  {el.name}
+                                  {el.title}
+                                  {el.categorie}
+                                  {el.importance}
+                                  {el.deadline}
+                                  {el.user.name}
+                                  <img width="25px" src={portrait} alt=""/>
                                 </div>
                               )
                             }}
