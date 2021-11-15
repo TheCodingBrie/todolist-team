@@ -13,13 +13,32 @@ taskObject {
     categorie:
     importance:
     deadline:
-    completed: bool or subtaskdone / subtask total
-    completedMethod?
-    subtaskArray: [{
-        id:
-        title:
-        completed: bool
-    },{}]
+    userid:
 }
 
-validations on delete task, trash task, delete categorie, 
+userArray = [{
+    id = "",
+    name: "",
+    portrait = {imported img}
+
+}]
+
+validations on delete task
+
+Local storage
+
+add new user :)
+
+how to setImportance with dropdown + setUser
+
+Todo
+
+- Card + section css : Guillaume
+- Local storage : Jenny
+- Enter button for new task : Jenny
+- setImportance + setUser : Guillaume
+- Delete task icon :
+- Delete validation :
+- Add new user interface :
+- Task menu (popup) :
+- Create parent-child components :
