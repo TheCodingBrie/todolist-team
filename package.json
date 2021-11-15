@@ -6,10 +6,16 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+<<<<<<< HEAD
     "react-tabs": "^3.2.3",
+=======
+    "uuid": "^8.3.2",
+>>>>>>> 30540191ed90bfa149d317dd0d3db92e87c96223
     "web-vitals": "^1.1.2"
   },
   "scripts": {
