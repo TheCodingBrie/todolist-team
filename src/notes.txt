@@ -1,0 +1,25 @@
+variables & objects:
+
+categorieArray = [categorie1, categorie2, categorie3, etc.]
+
+categorieObject = {
+    tabTitle:
+    taskArray: [{taskObject}, etc.]
+}
+
+taskObject {
+    id:
+    title:
+    categorie:
+    importance:
+    deadline:
+    completed: bool or subtaskdone / subtask total
+    completedMethod?
+    subtaskArray: [{
+        id:
+        title:
+        completed: bool
+    },{}]
+}
+
+validations on delete task, trash task, delete categorie, 

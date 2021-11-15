@@ -1,0 +1,9 @@
+<div>
+    completed checkbox
+
+    .map((task)=> task.subtaskArray)
+    
+    title
+
+    delete
+</div>
