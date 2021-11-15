@@ -7,6 +7,10 @@ import { v4 } from 'uuid';
 const item = {
   id: v4(),
   name: "Clean the house"
+  category: 
+  importance:
+  deadline:
+  user:
 }
 
 const item2 = {
