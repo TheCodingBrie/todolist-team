@@ -4,6 +4,7 @@ import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
 import portrait from "./images/cancel.png"
+import trash from "./images/trash.png"
 
 const date = new Date();
 
@@ -12,7 +13,7 @@ const date = new Date();
 const item = {
   id: v4(),
   title: "Clean the house",
-  categorie: "sport",
+  categorie: "Sport",
   importance: "low",
   deadline: date.getDate(),
   user: {
@@ -24,7 +25,7 @@ const item = {
 const item2 = {
   id: v4(),
   title: "Wash dishes",
-  categorie: "",
+  categorie: "Hygiene",
   importance: "medium",
   deadline: date.getDate(),
   user: {
@@ -36,7 +37,7 @@ const item2 = {
 const item3 = {
   id: v4(),
   title: "Grocery Shopping",
-  categorie: "",
+  categorie: "House",
   importance: "high",
   deadline: date.getDate(),
   user: {
@@ -91,7 +92,7 @@ function App() {
     /*creating a copy of item before removing it from the state*/
     const itemCopy = { ...state[source.droppableId].items[source.index] }
     /*then remove it from the actual location*/
-    setstate(prev => {
+    setState(prev => {
       /*creating a copy of the previous state*/
       prev = { ...prev }
       /*going into the items - inside the items, we're moving a set of items from source.index, but removing just 1 item*/
@@ -102,7 +103,6 @@ function App() {
       /*splice works in two ways: either just deleting items or deleting them and add items to replace what we deleted*/
       /*function: from our copied stat "prev", we're going into the droppableId (eg "done"), we'Re going further into the items of eg"done" and splice from the destination index (e.g. [0]) , removes nothing (0) and it adds an item*/
       prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
-
 
       return prev
     })
@@ -133,7 +133,8 @@ function App() {
       }
     })
     /*clearing the entered text in the input field*/
-    setTitle("")
+    setTitle("");
+    setCategorie("");
   }
 
   /*Local storage*/
@@ -170,6 +171,7 @@ function App() {
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
     <div className="App">
+      <div className="header">
       <div className="additems" onKeyDown={handleKeyDown}>
         {/* <Todolist todos={todos} /> */}
         <span>Task: </span>
@@ -177,7 +179,7 @@ function App() {
         <span>Categorie: </span>
         <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
         <label for="importance">Task importance: </label>
-        <select id="importance" ref={newItemRef} name="importance">
+        <select id="importance" name="importance">
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
@@ -186,12 +188,14 @@ function App() {
         <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         <label for="user">User: </label>
         <select id="user" name="user">
-          <option value="user1">test</option>
-          <option value="user2">test</option>
-          <option value="user3">test</option>
+            <option value="user1">{item.user.name}</option>
+            <option value="user2">{item2.user.name}</option>
+            <option value="user3">{item3.user.name}</option>
         </select>
         <button onClick={addItem}>Add</button>
       </div>
+      </div>
+      <div className='sections'>
       <DragDropContext onDragEnd={handleDragEnd}>
         {_.map(state, (data, key) => {
           return (
@@ -217,12 +221,15 @@ function App() {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                 >
-                                  {el.title}
-                                  {el.categorie}
-                                  {el.importance}
-                                  {el.deadline}
-                                  {el.user.name}
-                                  <img width="25px" src={portrait} alt="" />
+                                  <div className={el.importance}></div>
+                                    <p>{el.title}</p>
+                                    Due : {el.deadline} oktober
+                                    <div className='container'>
+                                      <div className="categorie">
+                                        <h4>{el.categorie}</h4>
+                                      </div>
+                                      <img width="25px" src={portrait} alt=""/>
+                                    </div>
                                 </div>
                               )
                             }}
@@ -238,6 +245,7 @@ function App() {
           )
         })}
       </DragDropContext>
+      </div>
     </div>
   );
 }

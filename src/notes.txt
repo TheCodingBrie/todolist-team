@@ -27,7 +27,7 @@ validations on delete task
 
 Local storage
 
-add new user :)
+add new user 🙂
 
 how to setImportance with dropdown + setUser
 
