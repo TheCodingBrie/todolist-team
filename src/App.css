@@ -59,12 +59,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: flex-end;
   border-radius: 7px;
   text-align: center;
   background-color: lightblue;
   color: black;
   width: 33%;
   height: 20px;
+}
+
+.cardTop {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .high, .medium, .low {
@@ -85,10 +92,11 @@
   background-color: green;
 }
 
-.container {
+.cardBottom {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  align-self: flex-end;
 }
 
 .trash {
@@ -97,4 +105,19 @@
   right: 0;
   width: 70px;
   height: 70px;
+}
+
+.portrait-container {
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.portrait {
+  width: 25px;
+  
 }

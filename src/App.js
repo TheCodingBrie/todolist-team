@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import portrait from "./images/cancel.png"
+import portrait from "./images/doggo.png"
 import trash from "./images/trash.png"
 
 const date = new Date();
-
-
 
 const item = {
   id: v4(),
@@ -69,6 +67,24 @@ function App() {
       items: [item3]
     }
   })
+
+  //Local storage
+
+  const LOCAL_STORAGE_KEY = 'todoApp.todos'
+
+  //loading the stored items
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedTodos) setState(storedTodos)
+    console.log('load')
+  }, [])
+
+  //saving function
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
+    console.log('save')
+  }, [state])
+
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
   const handleDragEnd = ({ destination, source }) => {
@@ -102,10 +118,17 @@ function App() {
     })
   }
 
+  const handleEnter = (e) => {
+    if ( e.key === "Enter") {
+      addItem();
+    }
+  }
+
   const addItem = () => {
+    if (title === "") return;
     setState(prev => {
       /* returns the previous state if title isn't filled */
-      if (!title) return prev;
+      
       return {
         /*copy the previous state*/
         ...prev,
@@ -141,7 +164,7 @@ function App() {
 
 <div className="App">
       <div className="header">
-        <div className="additems">
+        <div onKeyUp={handleEnter} className="additems">
           <span>Task: </span>
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           <span>Categorie: </span>
@@ -152,7 +175,7 @@ function App() {
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
-          <span>Due for: </span>
+          <span>Due date: </span>
           <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
           <label for="user">User: </label>
           <select id="user" name="user">
@@ -163,61 +186,77 @@ function App() {
           <button onClick={addItem}>Add</button>
         </div>
       </div>
+      <img className="trash" src={trash} alt="" />
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
-            return (
-              <div key={key} className={"column"}>
-                <h3>{data.section}</h3>
-                <Droppable droppableId={key}>
-                  {(provided, snapshot) => {
-                    return (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        className={"droppable-col"}
-                      >
-                        {data.items.map((el, index) => {
-                          return (
-                            <Draggable key={el.id} index={index} draggableId={el.id}>
-                              {(provided, snapshot) => {
-                                return (
-                                  <div
-                                    className={`item ${snapshot.isDragging && "dragging"}`}
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    
-                                    <div className={el.importance}></div>
-                                    <p>{el.title}</p>
-                                    Due : {el.deadline} oktober
-                                    <div className='container'>
-                                      <div className="categorie">
-                                        <h4>{el.categorie}</h4>
+              return (
+                <div key={key} className={"column"}>
+                  <h3>{data.section}</h3>
+                  <Droppable droppableId={key}>
+                    {(provided, snapshot) => {
+                      return (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className={"droppable-col"}
+                        >
+                          {data.items.map((el, index) => {
+                            return (
+                              <Draggable key={el.id} index={index} draggableId={el.id}>
+                                {(provided, snapshot) => {
+                                  return (
+                                    <div
+                                      className={`item ${snapshot.isDragging && "dragging"}`}
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      <div className="cardTop">
+                                        <div className={el.importance}></div>
+                                        <span>{el.deadline}th November</span>
                                       </div>
-                                      <img width="25px" src={portrait} alt=""/>
+                                      
+                                      <p>{el.title}</p>
+                                      
+                                      <div className='cardBottom'>
+                                        <div className="categorie">
+                                          <h4>{el.categorie}</h4>
+                                        </div>
+                                        <div className="portrait-container">
+                                          <img className="portrait" src={portrait} alt=""/>
+                                        </div>
+                                      </div>
+                                      
                                     </div>
-                                    
-                                  </div>
-                                )
-                              }}
-                            </Draggable>
-                          )
-                        })}
-                        {provided.placeholder}
-                      </div>
-                    )
-                  }}
-                  
+                                  )
+                                }}
+                              </Draggable>
+                            )
+                          })}
+                          {provided.placeholder}
+                        </div>
+                      )
+                    }}
                 </Droppable>
               </div>
             )
           })}
         </DragDropContext>
+        {/* <DragDropContext onDragEnd={e => handleDelete}>
+          <Droppable droppableId={"123"}>
+            {(provided, snapshot) => {
+                return (
+                  <img className="trash" src={trash} alt="" />
+                )
+              } 
+            }
+          </Droppable>
+        </DragDropContext> */}
       </div>
     </div>
   );
 }
 
 export default App;
+
