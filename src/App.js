@@ -1,48 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import portrait from "./images/doggo.png"
+import Section from "./Section.js";
 import trash from "./images/trash.png"
 
-const date = new Date();
+// const item = {
+//   id: v4(),
+//   title: "Clean the house",
+//   categorie: "Sport",
+//   importance: "low",
+//   deadline: date.getDate(),
+//   user: {
+//     name: "Jenny",
+//     picture: {portrait}
+//   }
+// }
 
-const item = {
-  id: v4(),
-  title: "Clean the house",
-  categorie: "Sport",
-  importance: "low",
-  deadline: date.getDate(),
-  user: {
-    name: "Jenny",
-    picture: {portrait}
-  }
-}
 
-const item2 = {
-  id: v4(),
-  title: "Wash dishes",
-  categorie: "Hygiene",
-  importance: "medium",
-  deadline: date.getDate(),
-  user: {
-    name: "Valerio",
-    picture: {portrait}
-  }
-}
-
-const item3 = {
-  id: v4(),
-  title: "Grocery Shopping",
-  categorie: "House",
-  importance: "high",
-  deadline: date.getDate(),
-  user: {
-    name: "Guillaume",
-    picture: {portrait}
-  }
-}
 
 function App() {
   /*to add a new task*/
@@ -154,6 +130,15 @@ function App() {
       addItem();
     }};
 
+    /*
+      const cardItems = todos.map((todo) => {
+        ...todo,
+        user: users.find(user => todo.user === user.id)
+      })
+    */
+
+
+
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
     /*data is data inside the states of "todo","in-progress","done"*/
@@ -178,9 +163,9 @@ function App() {
         <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         <label for="user">User: </label>
         <select id="user" name="user">
-            <option value="user1">{item.user.name}</option>
-            <option value="user2">{item2.user.name}</option>
-            <option value="user3">{item3.user.name}</option>
+            <option value="user1"></option>
+            <option value="user2"></option>
+            <option value="user3"></option>
         </select>
         <button onClick={addItem}>Add</button>
       </div>
@@ -189,56 +174,8 @@ function App() {
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
-              return (
-                <div key={key} className={"column"}>
-                  <h3>{data.section}</h3>
-                  <Droppable droppableId={key}>
-                    {(provided, snapshot) => {
-                      return (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={"droppable-col"}
-                        >
-                          {data.items.map((el, index) => {
-                            return (
-                              <Draggable key={el.id} index={index} draggableId={el.id}>
-                                {(provided, snapshot) => {
-                                  return (
-                                    <div
-                                      className={`item ${snapshot.isDragging && "dragging"}`}
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      <div className="cardTop">
-                                        <div className={el.importance}></div>
-                                        <span>{el.deadline}th November</span>
-                                      </div>
-                                      
-                                      <p>{el.title}</p>
-                                      
-                                      <div className='cardBottom'>
-                                        <div className="categorie">
-                                          <h4>{el.categorie}</h4>
-                                        </div>
-                                        <div className="portrait-container">
-                                          <img className="portrait" src={portrait} alt=""/>
-                                        </div>
-                                      </div>
-                                      
-                                    </div>
-                                  )
-                                }}
-                              </Draggable>
-                            )
-                          })}
-                          {provided.placeholder}
-                        </div>
-                      )
-                    }}
-                </Droppable>
-              </div>
+            return (
+              <Section index={key} data={data} />
             )
           })}
         </DragDropContext>

@@ -41,4 +41,4 @@ Todo
 - Delete validation :
 - Add new user interface :
 - Task menu (popup) :
-- Create parent-child components :
+- Make form a component: Valerio
