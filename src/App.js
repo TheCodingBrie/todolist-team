@@ -7,6 +7,7 @@ import { v4 } from 'uuid';
 const item = {
   id: v4(),
 <<<<<<< HEAD
+<<<<<<< HEAD
   title: "Clean the house",
   categorie: "Sport",
   importance: "low",
@@ -18,10 +19,14 @@ const item = {
 =======
   name: "Clean the house"
 >>>>>>> parent of b2378fe (Add taskCardObj + update interface)
+=======
+  name: "Clean the house"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 }
 
 const item2 = {
   id: v4(),
+<<<<<<< HEAD
 <<<<<<< HEAD
   title: "Wash dishes",
   categorie: "Hygiene",
@@ -34,10 +39,14 @@ const item2 = {
 =======
   name: "Wash dishes"
 >>>>>>> parent of b2378fe (Add taskCardObj + update interface)
+=======
+  name: "Wash dishes"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 }
 
 const item3 = {
   id: v4(),
+<<<<<<< HEAD
 <<<<<<< HEAD
   title: "Grocery Shopping",
   categorie: "House",
@@ -47,6 +56,9 @@ const item3 = {
     name: "Guillaume",
     picture: {portrait}
   }
+=======
+  name: "Grocery Shopping"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 =======
   name: "Grocery Shopping"
 >>>>>>> parent of b2378fe (Add taskCardObj + update interface)
@@ -127,8 +139,12 @@ function App() {
     })
     /*clearing the entered text in the input field*/
 <<<<<<< HEAD
+<<<<<<< HEAD
     alert(JSON.stringify(state.todo.items));
     setTitle("")
+=======
+    setText("")
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 =======
     setText("")
 >>>>>>> parent of b2378fe (Add taskCardObj + update interface)
