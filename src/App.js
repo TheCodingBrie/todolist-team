@@ -52,11 +52,8 @@ function App() {
   const [deadline, setDeadline] = useState(null);
   const [user, setUser] = useState([]);
 
-  /*For accessing the text inside the input fields*/
-  const newItemRef = useRef()
-
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
-  const [state, setstate] = useState({
+  const [state, setState] = useState({
     "todo": {
       section: "Todo",
       items: []
@@ -70,23 +67,6 @@ function App() {
       items: []
     }
   })
-
-  //Local storage
-
-  const LOCAL_STORAGE_KEY = 'todoApp.todos'
-
-  //loading the stored items
-  useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedTodos) setState(storedTodos)
-    console.log('load')
-  }, [])
-
-  //saving function
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
-    console.log('save')
-  }, [state])
 
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
@@ -123,7 +103,7 @@ function App() {
 
   const addItem = () => {
     if (title === "") return
-    setstate(prev => {
+    setState(prev => {
       return {
         /*copy the previous state*/
         ...prev,
@@ -157,7 +137,7 @@ function App() {
   /*loading the stored items*/
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedTodos) setstate(storedTodos)
+    if (storedTodos) setState(storedTodos)
     console.log('load')
   }, [])
 
@@ -185,7 +165,7 @@ function App() {
       <div className="additems" onKeyDown={handleKeyDown}>
         {/* <Todolist todos={todos} /> */}
         <span>Task: </span>
-        <input type="text" value={title} ref={newItemRef} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         <span>Categorie: </span>
         <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
         <label for="importance">Task importance: </label>
