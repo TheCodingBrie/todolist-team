@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
@@ -8,7 +8,7 @@ import portrait from "./images/cancel.png"
 const date = new Date();
 
 
-
+/*
 const item = {
   id: v4(),
   title: "Clean the house",
@@ -44,6 +44,7 @@ const item3 = {
     picture: {portrait}
   }
 }
+*/
 
 function App() {
   /*to add a new task*/
@@ -53,21 +54,26 @@ function App() {
   const [deadline, setDeadline] = useState(null);
   const [user, setUser] = useState([]);
 
-  /*setting up the data structure*/
+  /*For accessing the text inside the input fields*/
+  const newItemRef = useRef()
+
+  /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setstate] = useState({
     "todo": {
       section: "Todo",
-      items: [item]
+      items: []
     },
     "in-progress": {
       section: "In Progress",
-      items: [item2]
+      items: []
     },
     "done": {
       section: "Completed",
-      items: [item3]
+      items: []
     }
   })
+
+
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
   const handleDragEnd = ({ destination, source }) => {
@@ -103,6 +109,7 @@ function App() {
   }
 
   const addItem = () => {
+    if (title === '') return
     setstate(prev => {
       return {
         /*copy the previous state*/
@@ -129,6 +136,33 @@ function App() {
     setTitle("")
   }
 
+  /*Local storage*/
+
+  const LOCAL_STORAGE_KEY = 'todoApp.todos'
+
+  /*loading the stored items*/
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedTodos) setstate(storedTodos)
+    console.log('load')
+  }, [])
+
+  /*saving function*/
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
+    console.log('save')
+  }, [state])
+
+
+  /*add task by pressing key button*/
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      addItem();
+    }};
+
+
+
+
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
     /*data is data inside the states of "todo","in-progress","done"*/
@@ -136,13 +170,14 @@ function App() {
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
     <div className="App">
-      <div className="additems">
+      <div className="additems" onKeyDown={handleKeyDown}>
+        {/* <Todolist todos={todos} /> */}
         <span>Task: </span>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" value={title} ref={newItemRef} onChange={(e) => setTitle(e.target.value)} />
         <span>Categorie: </span>
         <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
         <label for="importance">Task importance: </label>
-        <select id="importance" name="importance">
+        <select id="importance" ref={newItemRef} name="importance">
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
@@ -151,9 +186,9 @@ function App() {
         <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         <label for="user">User: </label>
         <select id="user" name="user">
-          <option value="user1">{item.user.name}</option>
-          <option value="user2">{item2.user.name}</option>
-          <option value="user3">{item3.user.name}</option>
+          <option value="user1">test</option>
+          <option value="user2">test</option>
+          <option value="user3">test</option>
         </select>
         <button onClick={addItem}>Add</button>
       </div>
@@ -187,7 +222,7 @@ function App() {
                                   {el.importance}
                                   {el.deadline}
                                   {el.user.name}
-                                  <img width="25px" src={portrait} alt=""/>
+                                  <img width="25px" src={portrait} alt="" />
                                 </div>
                               )
                             }}
