@@ -3,14 +3,10 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import portrait from "./images/cancel.png"
-
-const date = new Date();
-
-
 
 const item = {
   id: v4(),
+<<<<<<< HEAD
   title: "Clean the house",
   categorie: "Sport",
   importance: "low",
@@ -19,10 +15,14 @@ const item = {
     name: "Jenny",
     picture: {portrait}
   }
+=======
+  name: "Clean the house"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 }
 
 const item2 = {
   id: v4(),
+<<<<<<< HEAD
   title: "Wash dishes",
   categorie: "Hygiene",
   importance: "medium",
@@ -31,10 +31,14 @@ const item2 = {
     name: "Valerio",
     picture: {portrait}
   }
+=======
+  name: "Wash dishes"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 }
 
 const item3 = {
   id: v4(),
+<<<<<<< HEAD
   title: "Grocery Shopping",
   categorie: "House",
   importance: "high",
@@ -43,28 +47,27 @@ const item3 = {
     name: "Guillaume",
     picture: {portrait}
   }
+=======
+  name: "Grocery Shopping"
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
 }
 
 function App() {
   /*to add a new task*/
-  const [title, setTitle] = useState("")
-  const [categorie, setCategorie] = useState("");
-  const [importance, setImportance] = useState("low");
-  const [deadline, setDeadline] = useState(null);
-  const [user, setUser] = useState([]);
+  const [text, setText] = useState("")
 
   /*setting up the data structure*/
   const [state, setState] = useState({
     "todo": {
-      section: "Todo",
+      title: "Todo",
       items: [item]
     },
     "in-progress": {
-      section: "In Progress",
+      title: "In Progress",
       items: [item2]
     },
     "done": {
-      section: "Completed",
+      title: "Completed",
       items: [item3]
     }
   })
@@ -101,6 +104,7 @@ function App() {
     })
   }
 
+
   const addItem = () => {
     setState(prev => {
       alert(prev);
@@ -109,15 +113,11 @@ function App() {
         ...prev,
         /*set todo equal to the data structure that we're using*/
         todo: {
-          section: "Todo",
+          title: "Todo",
           items: [
             {
               id: v4(),
-              title: title,
-              categorie: categorie,
-              importrance: importance,
-              deadline: deadline,
-              user: user
+              name: text
             },
             /*copy previous items and add the new item to it*/
             ...prev.todo.items
@@ -126,8 +126,12 @@ function App() {
       }
     })
     /*clearing the entered text in the input field*/
+<<<<<<< HEAD
     alert(JSON.stringify(state.todo.items));
     setTitle("")
+=======
+    setText("")
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
   }
 
   return (
@@ -137,6 +141,7 @@ function App() {
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
     <div className="App">
+<<<<<<< HEAD
       <div className="header">
         <form className="additems">
           <span>Task: </span>
@@ -211,6 +216,53 @@ function App() {
           })}
         </DragDropContext>
       </div>
+=======
+      <div className="additems">
+        <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+        <button onClick={addItem}>Add</button>
+      </div>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {_.map(state, (data, key) => {
+          return (
+            <div key={key} className={"column"}>
+              <h3>{data.title}</h3>
+              <Droppable droppableId={key}>
+                {(provided, snapshot) => {
+                  return (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className={"droppable-col"}
+                    >
+                      {data.items.map((el, index) => {
+                        return (
+                          <Draggable key={el.id} index={index} draggableId={el.id}>
+                            {(provided, snapshot) => {
+                              return (
+                                <div
+
+                                  className={`item ${snapshot.isDragging && "dragging"}`}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  {el.name}
+                                </div>
+                              )
+                            }}
+                          </Draggable>
+                        )
+                      })}
+                      {provided.placeholder}
+                    </div>
+                  )
+                }}
+              </Droppable>
+            </div>
+          )
+        })}
+      </DragDropContext>
+>>>>>>> parent of b2378fe (Add taskCardObj + update interface)
     </div>
   );
 }
