@@ -9,6 +9,10 @@
 
 .header {
   background-color: lightblue;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sections {
@@ -85,4 +89,12 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.trash {
+  position: fixed;
+  top: 110px;
+  right: 0;
+  width: 70px;
+  height: 70px;
 }
