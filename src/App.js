@@ -165,7 +165,6 @@ function App() {
       </div>
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
-            
           {_.map(state, (data, key) => {
             return (
               <div key={key} className={"column"}>
