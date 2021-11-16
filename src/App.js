@@ -52,19 +52,22 @@ function App() {
   const [deadline, setDeadline] = useState(null);
   const [user, setUser] = useState([]);
 
-  /*setting up the data structure*/
-  const [state, setState] = useState({
+  /*For accessing the text inside the input fields*/
+  const newItemRef = useRef()
+
+  /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
+  const [state, setstate] = useState({
     "todo": {
       section: "Todo",
-      items: [item]
+      items: []
     },
     "in-progress": {
       section: "In Progress",
-      items: [item2]
+      items: []
     },
     "done": {
       section: "Completed",
-      items: [item3]
+      items: []
     }
   })
 
@@ -118,17 +121,9 @@ function App() {
     })
   }
 
-  const handleEnter = (e) => {
-    if ( e.key === "Enter") {
-      addItem();
-    }
-  }
-
   const addItem = () => {
-    if (title === "") return;
-    setState(prev => {
-      /* returns the previous state if title isn't filled */
-      
+    if (title === "") return
+    setstate(prev => {
       return {
         /*copy the previous state*/
         ...prev,
@@ -155,36 +150,60 @@ function App() {
     setCategorie("");
   }
 
+  /*Local storage*/
+
+  const LOCAL_STORAGE_KEY = 'todoApp.todos'
+
+  /*loading the stored items*/
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
+    if (storedTodos) setstate(storedTodos)
+    console.log('load')
+  }, [])
+
+  /*saving function*/
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
+    console.log('save')
+  }, [state])
+
+
+  /*add task by pressing key button*/
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      addItem();
+    }};
+
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
     /*data is data inside the states of "todo","in-progress","done"*/
     /*key is gonna be the "todo",.. itself*/
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
-
-<div className="App">
+    <div className="App">
       <div className="header">
-        <div onKeyUp={handleEnter} className="additems">
-          <span>Task: </span>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <span>Categorie: </span>
-          <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-          <label for="importance">Task importance: </label>
-          <select id="importance" name="importance">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-          <span>Due date: </span>
-          <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-          <label for="user">User: </label>
-          <select id="user" name="user">
+      <div className="additems" onKeyDown={handleKeyDown}>
+        {/* <Todolist todos={todos} /> */}
+        <span>Task: </span>
+        <input type="text" value={title} ref={newItemRef} onChange={(e) => setTitle(e.target.value)} />
+        <span>Categorie: </span>
+        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
+        <label for="importance">Task importance: </label>
+        <select id="importance" name="importance">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <span>Due for: </span>
+        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+        <label for="user">User: </label>
+        <select id="user" name="user">
             <option value="user1">{item.user.name}</option>
             <option value="user2">{item2.user.name}</option>
             <option value="user3">{item3.user.name}</option>
-          </select>
-          <button onClick={addItem}>Add</button>
-        </div>
+        </select>
+        <button onClick={addItem}>Add</button>
+      </div>
       </div>
       <img className="trash" src={trash} alt="" />
       <div className='sections'>
