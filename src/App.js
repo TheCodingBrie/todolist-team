@@ -1,51 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useState, useEffect } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import portrait from "./images/cancel.png"
+import Section from "./Section.js";
 import trash from "./images/trash.png"
 
-const date = new Date();
+// const item = {
+//   id: v4(),
+//   title: "Clean the house",
+//   categorie: "Sport",
+//   importance: "low",
+//   deadline: date.getDate(),
+//   user: {
+//     name: "Jenny",
+//     picture: {portrait}
+//   }
+// }
 
 
-/*
-const item = {
-  id: v4(),
-  title: "Clean the house",
-  categorie: "Sport",
-  importance: "low",
-  deadline: date.getDate(),
-  user: {
-    name: "Jenny",
-    picture: {portrait}
-  }
-}
-
-const item2 = {
-  id: v4(),
-  title: "Wash dishes",
-  categorie: "Hygiene",
-  importance: "medium",
-  deadline: date.getDate(),
-  user: {
-    name: "Valerio",
-    picture: {portrait}
-  }
-}
-
-const item3 = {
-  id: v4(),
-  title: "Grocery Shopping",
-  categorie: "House",
-  importance: "high",
-  deadline: date.getDate(),
-  user: {
-    name: "Guillaume",
-    picture: {portrait}
-  }
-}
-*/
 
 function App() {
   /*to add a new task*/
@@ -55,11 +28,8 @@ function App() {
   const [deadline, setDeadline] = useState(null);
   const [user, setUser] = useState([]);
 
-  /*For accessing the text inside the input fields*/
-  const newItemRef = useRef()
-
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
-  const [state, setstate] = useState({
+  const [state, setState] = useState({
     "todo": {
       section: "Todo",
       items: []
@@ -73,7 +43,6 @@ function App() {
       items: []
     }
   })
-
 
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
@@ -109,8 +78,8 @@ function App() {
   }
 
   const addItem = () => {
-    if (title === '') return
-    setstate(prev => {
+    if (title === "") return
+    setState(prev => {
       return {
         /*copy the previous state*/
         ...prev,
@@ -144,7 +113,7 @@ function App() {
   /*loading the stored items*/
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedTodos) setstate(storedTodos)
+    if (storedTodos) setState(storedTodos)
     console.log('load')
   }, [])
 
@@ -161,6 +130,12 @@ function App() {
       addItem();
     }};
 
+    /*
+      const cardItems = todos.map((todo) => {
+        ...todo,
+        user: users.find(user => todo.user === user.id)
+      })
+    */
 
 
 
@@ -175,7 +150,7 @@ function App() {
       <div className="additems" onKeyDown={handleKeyDown}>
         {/* <Todolist todos={todos} /> */}
         <span>Task: </span>
-        <input type="text" value={title} ref={newItemRef} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         <span>Categorie: </span>
         <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
         <label for="importance">Task importance: </label>
@@ -188,66 +163,36 @@ function App() {
         <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         <label for="user">User: </label>
         <select id="user" name="user">
-            <option value="user1">{item.user.name}</option>
-            <option value="user2">{item2.user.name}</option>
-            <option value="user3">{item3.user.name}</option>
+            <option value="user1"></option>
+            <option value="user2"></option>
+            <option value="user3"></option>
         </select>
         <button onClick={addItem}>Add</button>
       </div>
       </div>
+      <img className="trash" src={trash} alt="" />
       <div className='sections'>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        {_.map(state, (data, key) => {
-          return (
-            <div key={key} className={"column"}>
-              <h3>{data.section}</h3>
-              <Droppable droppableId={key}>
-                {(provided, snapshot) => {
-                  return (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className={"droppable-col"}
-                    >
-                      {data.items.map((el, index) => {
-                        return (
-                          <Draggable key={el.id} index={index} draggableId={el.id}>
-                            {(provided, snapshot) => {
-                              return (
-                                <div
-
-                                  className={`item ${snapshot.isDragging && "dragging"}`}
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  <div className={el.importance}></div>
-                                    <p>{el.title}</p>
-                                    Due : {el.deadline} oktober
-                                    <div className='container'>
-                                      <div className="categorie">
-                                        <h4>{el.categorie}</h4>
-                                      </div>
-                                      <img width="25px" src={portrait} alt=""/>
-                                    </div>
-                                </div>
-                              )
-                            }}
-                          </Draggable>
-                        )
-                      })}
-                      {provided.placeholder}
-                    </div>
-                  )
-                }}
-              </Droppable>
-            </div>
-          )
-        })}
-      </DragDropContext>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {_.map(state, (data, key) => {
+            return (
+              <Section index={key} data={data} />
+            )
+          })}
+        </DragDropContext>
+        {/* <DragDropContext onDragEnd={e => handleDelete}>
+          <Droppable droppableId={"123"}>
+            {(provided, snapshot) => {
+                return (
+                  <img className="trash" src={trash} alt="" />
+                )
+              } 
+            }
+          </Droppable>
+        </DragDropContext> */}
       </div>
     </div>
   );
 }
 
 export default App;
+

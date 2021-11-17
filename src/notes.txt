@@ -42,3 +42,4 @@ Todo
 - Add new user interface :
 - Task menu (popup) :Jenny
 - Create parent-child components :
+- Make form a component: Valerio
