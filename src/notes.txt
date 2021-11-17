@@ -40,5 +40,5 @@ Todo
 - Delete task icon :
 - Delete validation :
 - Add new user interface :
-- Task menu (popup) :
+- Task menu (popup) :Jenny
 - Create parent-child components :
