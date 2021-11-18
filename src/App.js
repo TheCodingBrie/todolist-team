@@ -4,6 +4,7 @@ import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
 import Section from "./Section.js";
+import Header from './Header';
 import trash from "./images/trash.png"
 
 // const item = {
@@ -146,30 +147,15 @@ function App() {
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
     <div className="App">
-      <div className="header">
-      <div className="additems" onKeyDown={handleKeyDown}>
-        {/* <Todolist todos={todos} /> */}
-        <span>Task: </span>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <span>Categorie: </span>
-        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-        <label for="importance">Task importance: </label>
-        <select id="importance" name="importance">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <span>Due for: </span>
-        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        <label for="user">User: </label>
-        <select id="user" name="user">
-            <option value="user1"></option>
-            <option value="user2"></option>
-            <option value="user3"></option>
-        </select>
-        <button onClick={addItem}>Add</button>
-      </div>
-      </div>
+      <Header 
+        title={title}
+        categorie={categorie}
+        setTitle={setTitle}
+        setCategorie={setCategorie}
+        deadline={deadline}
+        setDeadline={setDeadline}
+        addItem={addItem}
+         />
       <img className="trash" src={trash} alt="" />
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
