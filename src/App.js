@@ -243,3 +243,13 @@ function App() {
 
 export default App;
 
+{/* <Header 
+        title={title}
+        categorie={categorie}
+        setTitle={setTitle}
+        setCategorie={setCategorie}
+        deadline={deadline}
+        setDeadline={setDeadline}
+        addItem={addItem}
+         />
+      <img className="trash" src={trash} alt="" /> */}
