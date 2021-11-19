@@ -3,8 +3,13 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import Section from "./Section.js";
-import trash from "./images/trash.png"
+import add from "./images/plus.png"
+import Section from './Section.js';
+import Trash from './Trash.js';
+import logo from "./images/logo.png"
+import expand from "./images/expand.png"
+import collapse from "./images/collapse.png"
+
 
 // const item = {
 //   id: v4(),
@@ -13,20 +18,26 @@ import trash from "./images/trash.png"
 //   importance: "low",
 //   deadline: date.getDate(),
 //   user: {
-//     name: "Jenny",
+//     userid: (passed?)
+//     username: "Jenny",
 //     picture: {portrait}
 //   }
 // }
-
-
 
 function App() {
   /*to add a new task*/
   const [title, setTitle] = useState("")
   const [categorie, setCategorie] = useState("");
+  const [tagColor, setTagColor] = useState("rgb(255,255,255)");
   const [importance, setImportance] = useState("low");
-  const [deadline, setDeadline] = useState(null);
-  const [user, setUser] = useState([]);
+  const [deadline, setDeadline] = useState("");
+  const [user, setUser] = useState({
+    id: v4(),
+    username: "",
+    portrait: ""
+  });
+
+  const [menuButton, setMenuButton] = useState(false);
 
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
@@ -49,6 +60,19 @@ function App() {
   const handleDragEnd = ({ destination, source }) => {
     /*no destination -> not dropped in droppable -> moved outside the actual droppable, but didn't move it to an droppable, so it moves back to the actual one*/
     if (!destination) {
+      return
+    }
+
+    if (destination.droppableId === "trash") {
+      setState(prev => {
+        
+        prev = {...prev}
+
+        prev[source.droppableId].items.splice(source.index, 1)
+
+        return prev
+      })
+
       return
     }
     /*dropped in same place, then do nothing -> didn't  move it outside the actual droppable*/
@@ -91,7 +115,8 @@ function App() {
               id: v4(),
               title: title,
               categorie: categorie,
-              importrance: importance,
+              tagColor: tagColor,
+              importance: importance,
               deadline: deadline,
               user: user
             },
@@ -104,6 +129,7 @@ function App() {
     /*clearing the entered text in the input field*/
     setTitle("");
     setCategorie("");
+    
   }
 
   /*Local storage*/
@@ -114,13 +140,11 @@ function App() {
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
     if (storedTodos) setState(storedTodos)
-    console.log('load')
   }, [])
 
   /*saving function*/
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
-    console.log('save')
   }, [state])
 
 
@@ -130,14 +154,26 @@ function App() {
       addItem();
     }};
 
-    /*
-      const cardItems = todos.map((todo) => {
-        ...todo,
-        user: users.find(user => todo.user === user.id)
-      })
-    */
+  const handleExpand = () => {
+    setMenuButton(true);
+    console.log("pouet");
+  }
 
+  const handleCollapse = () => {
+    setMenuButton(false);
+  }
 
+  function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+    } else {
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+  }
 
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
@@ -145,32 +181,52 @@ function App() {
     /*key is gonna be the "todo",.. itself*/
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
+
     <div className="App">
-      <div className="header">
-      <div className="additems" onKeyDown={handleKeyDown}>
-        {/* <Todolist todos={todos} /> */}
-        <span>Task: </span>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <span>Categorie: </span>
-        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-        <label for="importance">Task importance: </label>
-        <select id="importance" name="importance">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <span>Due for: </span>
-        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        <label for="user">User: </label>
-        <select id="user" name="user">
-            <option value="user1"></option>
-            <option value="user2"></option>
-            <option value="user3"></option>
-        </select>
-        <button onClick={addItem}>Add</button>
-      </div>
-      </div>
-      <img className="trash" src={trash} alt="" />
+      <header onKeyDown={handleKeyDown}>
+        <img className="logo"  src={logo} alt=""/>
+        <div className="base-form">
+        <label for="todo">Task : 
+          <input id="todo" className="text" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        </label>
+        <div className="sub-base-form">
+          <label for="user">User: 
+            <select id="user" name="user" onChange={(e) => setUser(e.target.value)} >
+                <option value="user1">username1</option>
+                <option value="user2">username2</option>
+                <option value="user3">username3</option>
+            </select>
+          </label>
+          <button className="add-button" onClick={addItem}>
+              <img width="25px" src={add} alt=""/>
+          </button>
+        </div>
+        </div>
+        <button className={`expand-button ${menuButton ? "hidden" : ""}`} onClick={handleExpand}>
+          <img width="25px" src={expand} alt=""/>
+        </button>
+        <div className={menuButton ? "full-form" : "hidden-form"}>
+            <label for="categorie">Categorie: 
+              <input id="categorie" className="text" type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
+              <input className="color" value="#ffffff" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
+            </label>
+          <div className="sub-full-form-bottom">
+            <label for="importance">Priority: 
+              <select id="importance" name="importance" onChange={(e) => setImportance(e.target.value)}>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Due for: 
+              <input className="date" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+            </label>
+          </div>
+        </div>
+        <button className={`expand-button ${menuButton ? "" : "hidden"}`} onClick={handleCollapse}>
+          <img width="25px" src={collapse} alt=""/>
+        </button>
+      </header>
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
@@ -178,17 +234,8 @@ function App() {
               <Section index={key} data={data} />
             )
           })}
+          <Trash index={"trash"} data={state} />
         </DragDropContext>
-        {/* <DragDropContext onDragEnd={e => handleDelete}>
-          <Droppable droppableId={"123"}>
-            {(provided, snapshot) => {
-                return (
-                  <img className="trash" src={trash} alt="" />
-                )
-              } 
-            }
-          </Droppable>
-        </DragDropContext> */}
       </div>
     </div>
   );

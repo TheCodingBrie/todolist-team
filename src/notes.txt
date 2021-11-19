@@ -33,12 +33,15 @@ how to setImportance with dropdown + setUser
 
 Todo
 
+
+- Add new user interface :
+- Task menu (popup) : Jenny
+- Make form a component: Valerio
+
+Done
+
 - Card + section css : Guillaume
 - Local storage : Jenny
 - Enter button for new task : Jenny
 - setImportance + setUser : Guillaume
-- Delete task icon :
-- Delete validation :
-- Add new user interface :
-- Task menu (popup) :
-- Make form a component: Valerio
+- Delete task icon : Guillaume

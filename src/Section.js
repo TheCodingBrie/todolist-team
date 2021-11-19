@@ -1,9 +1,11 @@
 import Card from './Card';
 import { Droppable } from 'react-beautiful-dnd';
+import './App.css';
 
 function Section ({index, data}) {
+    console.log(index)
     return (  
-        <div key={index} className={"column"}>
+        <div key={index} className={`column-${index}`}>
             <h3>{data.section}</h3>
             <Droppable droppableId={index}>
             {(provided, snapshot) => {
@@ -11,7 +13,7 @@ function Section ({index, data}) {
                 <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={"droppable-col"}
+                    className={`droppable-col-${index}`}
                 >
                     {data.items.map((el, idx) => <Card el={el} index={idx}/>)}
                     {provided.placeholder}
