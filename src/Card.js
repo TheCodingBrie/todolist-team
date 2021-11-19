@@ -23,11 +23,11 @@ function Card({ el, index }) {
               <p className="task">{el.title}</p>
               
               <div className='cardBottom'>
-                <div className={el.categorie ? "categorie" : ""}
+                <div className={el.category ? "category" : ""}
                 style={{
                   backgroundColor: `${el.tagColor}`
                 }}>
-                  <h4>{el.categorie}</h4>
+                  <h4>{el.category}</h4>
                 </div>
                 <div className="portrait-container">
                   <img className="portrait" src={portrait} alt=""/>

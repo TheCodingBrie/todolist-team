@@ -1,37 +1,69 @@
+import logo from "./images/logo.png"
+import expand from "./images/expand.png"
+import collapse from "./images/collapse.png"
+import add from "./images/plus.png"
+
 export default function Header({
   handleKeyDown,
   title,
-  categorie,
-  setCategorie,
+  category,
+  setcategory,
   deadline,
   setDeadline,
+  setUser,
   addItem, 
-  setTitle
+  setTitle,
+  menuButton,
+  handleExpand,
+  setTagColor,
+  hexToRGB,
+  setImportance,
+  handleCollapse
 }) {
   return (
-    <div className="header">
-      <div className="additems" onKeyDown={handleKeyDown}>
-        {/* <Todolist todos={todos} /> */}
-        <span>Task: </span>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <span>Categorie: </span>
-        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-        <label for="importance">Task importance: </label>
-        <select id="importance" name="importance">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <span>Due for: </span>
-        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        <label for="user">User: </label>
-        <select id="user" name="user">
-            <option value="user1"></option>
-            <option value="user2"></option>
-            <option value="user3"></option>
-        </select>
-        <button onClick={addItem}>Add</button>
-      </div>
-    </div>
+    <header onKeyDown={handleKeyDown}>
+        <img className="logo"  src={logo} alt=""/>
+        <div className="base-form">
+        <label for="todo">Task : 
+          <input id="todo" className="text" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        </label>
+        <div className="sub-base-form">
+          <label for="user">User: 
+            <select id="user" name="user" onChange={(e) => setUser(e.target.value)} >
+                <option value="user1">username1</option>
+                <option value="user2">username2</option>
+                <option value="user3">username3</option>
+            </select>
+          </label>
+          <button className="add-button" onClick={addItem}>
+              <img width="25px" src={add} alt=""/>
+          </button>
+        </div>
+        </div>
+        <button className={`expand-button ${menuButton ? "hidden" : ""}`} onClick={handleExpand}>
+          <img width="25px" src={expand} alt=""/>
+        </button>
+        <div className={menuButton ? "full-form" : "hidden-form"}>
+            <label for="category">Category: 
+              <input id="category" className="text" type="text" value={category} onChange={(e) => setcategory(e.target.value)} />
+              <input className="color" value="#ffffff" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
+            </label>
+          <div className="sub-full-form-bottom">
+            <label for="importance">Priority: 
+              <select id="importance" name="importance" onChange={(e) => setImportance(e.target.value)}>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+            <label>Due for: 
+              <input className="date" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+            </label>
+          </div>
+        </div>
+        <button className={`expand-button ${menuButton ? "" : "hidden"}`} onClick={handleCollapse}>
+          <img width="25px" src={collapse} alt=""/>
+        </button>
+      </header>
   )
 }

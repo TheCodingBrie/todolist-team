@@ -3,18 +3,17 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import add from "./images/plus.png"
 import Section from './Section.js';
 import Trash from './Trash.js';
-import logo from "./images/logo.png"
-import expand from "./images/expand.png"
-import collapse from "./images/collapse.png"
+import Header from './Header.js'
+import bin from './images/trash.png'
+
 
 
 // const item = {
 //   id: v4(),
 //   title: "Clean the house",
-//   categorie: "Sport",
+//   category: "Sport",
 //   importance: "low",
 //   deadline: date.getDate(),
 //   user: {
@@ -27,7 +26,7 @@ import collapse from "./images/collapse.png"
 function App() {
   /*to add a new task*/
   const [title, setTitle] = useState("")
-  const [categorie, setCategorie] = useState("");
+  const [category, setcategory] = useState("");
   const [tagColor, setTagColor] = useState("rgb(255,255,255)");
   const [importance, setImportance] = useState("low");
   const [deadline, setDeadline] = useState("");
@@ -114,7 +113,7 @@ function App() {
             {
               id: v4(),
               title: title,
-              categorie: categorie,
+              category: category,
               tagColor: tagColor,
               importance: importance,
               deadline: deadline,
@@ -128,7 +127,7 @@ function App() {
     })
     /*clearing the entered text in the input field*/
     setTitle("");
-    setCategorie("");
+    setcategory("");
     
   }
 
@@ -183,50 +182,24 @@ function App() {
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
 
     <div className="App">
-      <header onKeyDown={handleKeyDown}>
-        <img className="logo"  src={logo} alt=""/>
-        <div className="base-form">
-        <label for="todo">Task : 
-          <input id="todo" className="text" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        </label>
-        <div className="sub-base-form">
-          <label for="user">User: 
-            <select id="user" name="user" onChange={(e) => setUser(e.target.value)} >
-                <option value="user1">username1</option>
-                <option value="user2">username2</option>
-                <option value="user3">username3</option>
-            </select>
-          </label>
-          <button className="add-button" onClick={addItem}>
-              <img width="25px" src={add} alt=""/>
-          </button>
-        </div>
-        </div>
-        <button className={`expand-button ${menuButton ? "hidden" : ""}`} onClick={handleExpand}>
-          <img width="25px" src={expand} alt=""/>
-        </button>
-        <div className={menuButton ? "full-form" : "hidden-form"}>
-            <label for="categorie">Categorie: 
-              <input id="categorie" className="text" type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-              <input className="color" value="#ffffff" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
-            </label>
-          <div className="sub-full-form-bottom">
-            <label for="importance">Priority: 
-              <select id="importance" name="importance" onChange={(e) => setImportance(e.target.value)}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-              </select>
-            </label>
-            <label>Due for: 
-              <input className="date" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-            </label>
-          </div>
-        </div>
-        <button className={`expand-button ${menuButton ? "" : "hidden"}`} onClick={handleCollapse}>
-          <img width="25px" src={collapse} alt=""/>
-        </button>
-      </header>
+      <Header 
+        title={title}
+        category={category}
+        setTitle={setTitle}
+        setcategory={setcategory}
+        deadline={deadline}
+        setDeadline={setDeadline}
+        addItem={addItem}
+        setTagColor={setTagColor}
+        setImportance={setImportance}
+        menuButton={menuButton}
+        handleKeyDown={handleKeyDown}
+        handleCollapse={handleCollapse}
+        handleExpand={handleExpand}
+        hexToRGB={hexToRGB}
+        setUser={setUser}
+         />
+      <img className="trash" src={bin} alt="" />
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
@@ -243,13 +216,3 @@ function App() {
 
 export default App;
 
-{/* <Header 
-        title={title}
-        categorie={categorie}
-        setTitle={setTitle}
-        setCategorie={setCategorie}
-        deadline={deadline}
-        setDeadline={setDeadline}
-        addItem={addItem}
-         />
-      <img className="trash" src={trash} alt="" /> */}

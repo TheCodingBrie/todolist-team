@@ -1,8 +1,8 @@
 variables & objects:
 
-categorieArray = [categorie1, categorie2, categorie3, etc.]
+categoryArray = [category1, category2, category3, etc.]
 
-categorieObject = {
+categoryObject = {
     tabTitle:
     taskArray: [{taskObject}, etc.]
 }
@@ -10,7 +10,7 @@ categorieObject = {
 taskObject {
     id:
     title:
-    categorie:
+    category:
     importance:
     deadline:
     userid:
