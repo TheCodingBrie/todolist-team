@@ -39,6 +39,8 @@ function App() {
     }
   })
 
+  const categorySet = {}
+
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
   const handleDragEnd = ({ destination, source }) => {
@@ -87,6 +89,8 @@ function App() {
 
   const addItem = () => {
     if (title === "") return
+    categorySet[category] = category;
+    console.log(categorySet)
     setState(prev => {
       return {
         /*copy the previous state*/
@@ -113,7 +117,7 @@ function App() {
     /*clearing the entered text in the input field*/
     setTitle("");
     setcategory("");
-    
+    console.log(categorySet)
   }
 
   /*Local storage*/

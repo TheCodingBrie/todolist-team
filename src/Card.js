@@ -5,7 +5,6 @@ import './Card.css';
 // el.user.portrait
 
 function Card({ el, index }) {
-  console.log(el.id)
     return (
         <Draggable key={el.id} index={index} draggableId={el.id}>
         {(provided, snapshot) => {

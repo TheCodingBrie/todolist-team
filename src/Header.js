@@ -51,7 +51,7 @@ export default function Header({
         <div className={menuButton ? "full-form" : "hidden-form"}>
             <label for="category">Category: 
               <input id="category" className="text" type="text" value={category} onChange={(e) => setcategory(e.target.value)} />
-              <input className="color" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
+              <input className="color" placeholder="#fffff" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
             </label>
           <div className="sub-full-form-bottom">
             <label for="importance">Priority: 

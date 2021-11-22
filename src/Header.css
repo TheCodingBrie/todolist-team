@@ -18,7 +18,7 @@ header {
     font-size: 1.2em;
     font-weight: bold;
     color: #e85a4f;
-}
+  }
 
 .logo {
     width: 150px;
@@ -113,3 +113,19 @@ select {
     display: none;
 }
 
+.color {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    width: 35px;
+    height: 35px;
+}
+
+.userPannel {
+    padding: 6px;
+    display: hidden;
+    flex-direction: column;
+    justify-content: space-around;
+    border: #eae7dc 1px dotted;
+    margin: 20px;
+}

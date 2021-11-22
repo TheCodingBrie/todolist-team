@@ -30,3 +30,16 @@ h3 {
     display:flex;
     flex-direction: column;
 }
+
+.sections {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.high, .medium, .low {
+    border-radius: 7px;
+    height: 15px;
+    width: 20%;
+}
