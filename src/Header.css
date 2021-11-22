@@ -1,10 +1,7 @@
-* {
-    box-sizing: border-box;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
 header {
+    display: block;
     position: sticky;
     margin-bottom: 10px;
     top: 0px;
@@ -28,24 +25,6 @@ header {
     width: 150px;
 }
 
-#user {
-    margin: 10px;
-}
-
-label {
-    display: flex;
-    align-items: center;
-}
-
-select {
-    border: 1px solid #e85a4f;
-    border-radius: 7px;
-    background-color: #eae7dc;
-    height: 2em;
-    font-size: .9em;
-    margin: 10px;
-}
-
 .base-form {
     padding: 6px;
     display: flex;
@@ -63,17 +42,31 @@ select {
     display: flex;
 }
 
-.full-form {
-    padding: 6px;
-    display: hidden;
-    flex-direction: column;
-    justify-content: space-around;
-    border: #eae7dc 1px dotted;
-    margin: 20px;
+label {
+    display: flex;
+    align-items: center;
 }
 
-.hidden-form {
-    display: none
+.text {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    height: 2em;
+    font-size: .9em;
+    margin: 10px;
+}
+
+#user {
+    margin: 10px;
+}
+
+select {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    height: 2em;
+    font-size: .9em;
+    margin: 10px;
 }
 
 .add-button {
@@ -95,8 +88,17 @@ select {
     height: 80%;
 }
 
-.hidden {
-    display: none;
+.full-form {
+    padding: 6px;
+    display: hidden;
+    flex-direction: column;
+    justify-content: space-around;
+    border: #eae7dc 1px dotted;
+    margin: 20px;
+}
+
+.hidden-form {
+    display: none
 }
 
 .date {
@@ -108,11 +110,7 @@ select {
     padding-left: 12px;
 }
 
-.text {
-    border: 1px solid #e85a4f;
-    border-radius: 7px;
-    background-color: #eae7dc;
-    height: 2em;
-    font-size: .9em;
-    margin: 10px;
+.hidden {
+    display: none;
 }
+
