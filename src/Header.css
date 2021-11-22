@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+header {
+    position: sticky;
+    margin-bottom: 10px;
+    top: 0px;
+    left: 0px;
+    background-color: #d8c3a5;
+    border-bottom: 1px dotted #eae7dc;
+    width: 85%;
+    height: 18%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+    padding-top: 5px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #e85a4f;
+  }
+
+.logo {
+    width: 150px;
+}
+
+.base-form {
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    border: #eae7dc 1px dotted;
+    margin: 20px;
+}
+
+.sub-base-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sub-full-form-bottom {
+    display: flex;
+}
+
+label {
+    display: flex;
+    align-items: center;
+}
+
+.text {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    height: 2em;
+    font-size: .9em;
+    margin: 10px;
+}
+
+#user {
+    margin: 10px;
+}
+
+select {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    height: 2em;
+    font-size: .9em;
+    margin: 10px;
+}
+
+.add-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-color: #eae7dc;
+    background-color: #d8c3a5;
+    border-radius: 7px;
+    font-weight: bold;
+    height: 50px;
+    width: 50px;
+}
+
+.expand-button {
+    border-color: #eae7dc;
+    background-color: #d8c3a5;
+    height: 80%;
+}
+
+.full-form {
+    padding: 6px;
+    display: hidden;
+    flex-direction: column;
+    justify-content: space-around;
+    border: #eae7dc 1px dotted;
+    margin: 20px;
+}
+
+.hidden-form {
+    display: none
+}
+
+.date {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    margin: 10px;
+    height: 35px;
+    padding-left: 12px;
+}
+
+.hidden {
+    display: none;
+}
+
+.color {
+    border: 1px solid #e85a4f;
+    border-radius: 7px;
+    background-color: #eae7dc;
+    width: 35px;
+    height: 35px;
+}
+
+.userPannel {
+    padding: 6px;
+    display: hidden;
+    flex-direction: column;
+    justify-content: space-around;
+    border: #eae7dc 1px dotted;
+    margin: 20px;
+}

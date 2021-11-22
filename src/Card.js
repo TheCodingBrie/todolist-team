@@ -1,8 +1,6 @@
 import { Draggable } from 'react-beautiful-dnd';
 import portrait from "./images/doggo.png"
-import Window from "./Window"
-import React, { useContext, Fragment, useState} from "react";
-
+import './Card.css';
 
 // el.user.portrait
 
@@ -16,7 +14,6 @@ const onClick = (el) => {
 }
 
   return (
-    <Fragment>
         <Draggable key={el.id} index={index} draggableId={el.id}>
         {(provided, snapshot) => {
           return (
@@ -29,25 +26,26 @@ const onClick = (el) => {
             >
               <div className="cardTop">
                 <div className={el.importance}></div>
-                <span>{el.deadline}th November</span>
+                <span>{el.deadline}</span>
               </div>
               
-              <p>{el.title}</p>
+              <p className="task">{el.title}</p>
               
               <div className='cardBottom'>
-                <div className="categorie">
-                  <h4>{el.categorie}</h4>
+                <div className={el.category ? "category" : ""}
+                style={{
+                  backgroundColor: `${el.tagColor}`
+                }}>
+                  <h4>{el.category}</h4>
                 </div>
                 <div className="portrait-container">
                   <img className="portrait" src={portrait} alt=""/>
                 </div>
               </div>
-              
             </div>
           )
         }}
       </Draggable>
-      </Fragment> 
   );
 }
 

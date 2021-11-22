@@ -1,35 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
-import _ from 'lodash';
+import _, { template } from 'lodash';
 import { v4 } from 'uuid';
 import Section from "./Section.js";
-import trash from "./images/trash.png"
 import Window from './Window';
 import ReactModal from 'react-modal';
-import { StateContext, IDContext, TitleContext, CategorieContext, ImportanceContext, DeadlineContext, UserContext } from './Context';
+import Trash from './Trash.js';
+import Header from './Header.js'
 
-// const item = {
-//   id: v4(),
-//   title: "Clean the house",
-//   categorie: "Sport",
-//   importance: "low",
-//   deadline: date.getDate(),
-//   user: {
-//     name: "Jenny",
-//     picture: {portrait}
-//   }
-// }
 
 ReactModal.setAppElement('#root')
+
 
 function App() {
   /*to add a new task*/
   const [title, setTitle] = useState("")
-  const [categorie, setCategorie] = useState("");
+  const [category, setcategory] = useState("");
+  const [tagColor, setTagColor] = useState("#ffffff");
   const [importance, setImportance] = useState("low");
-  const [deadline, setDeadline] = useState(null);
-  const [user, setUser] = useState([]);
+  const [deadline, setDeadline] = useState("");
+  const [user, setUser] = useState({
+    id: v4(),
+    username: "",
+    portrait: ""
+  });
+
+  const [menuButton, setMenuButton] = useState(false);
 
 
   /*Modal*/
@@ -38,14 +35,7 @@ function App() {
   const [temp, setTemp] = useState({});
 
 
-  /*edit function Modal*/
-  /*to see, if we're editing*/
-  //const [isEditing, setIsEditing] = useState(false);
-  /*to know, which item is edited*/
-  //const [currentItem, setCurrentItem] = useState({});
-
-
-
+  
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
     "todo": {
@@ -62,11 +52,26 @@ function App() {
     }
   })
 
+  const categorySet = {}
+
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
   const handleDragEnd = ({ destination, source }) => {
     /*no destination -> not dropped in droppable -> moved outside the actual droppable, but didn't move it to an droppable, so it moves back to the actual one*/
     if (!destination) {
+      return
+    }
+
+    if (destination.droppableId === "trash") {
+      setState(prev => {
+        
+        prev = {...prev}
+
+        prev[source.droppableId].items.splice(source.index, 1)
+
+        return prev
+      })
+
       return
     }
     /*dropped in same place, then do nothing -> didn't  move it outside the actual droppable*/
@@ -104,7 +109,7 @@ function App() {
   const onCard = (el) => setTemp(el);
 
 
-  /*const variableOne = state.item.filter(item => item.id === id);*/
+ 
 
 
   /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
@@ -173,6 +178,8 @@ function App() {
 
   const addItem = () => {
     if (title === "") return
+    categorySet[category] = category;
+    console.log(categorySet)
     setState(prev => {
       return {
         /*copy the previous state*/
@@ -184,7 +191,8 @@ function App() {
             {
               id: v4(),
               title: title,
-              categorie: categorie,
+              category: category,
+              tagColor: tagColor,
               importance: importance,
               deadline: deadline,
               user: user
@@ -197,7 +205,8 @@ function App() {
     })
     /*clearing the entered text in the input field*/
     setTitle("");
-    setCategorie("");
+    setcategory("");
+    console.log(categorySet)
   }
 
   /*Local storage*/
@@ -208,15 +217,12 @@ function App() {
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
     if (storedTodos) setState(storedTodos)
-    console.log('load')
   }, [])
 
   /*saving function*/
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
-    console.log('save')
-  }, [state]) 
-  
+  }, [state])
 
 
   /*add task by pressing key button*/
@@ -239,8 +245,25 @@ function App() {
       user: users.find(user => todo.user === user.id)
     })
   */
+  const handleExpand = () => {
+    setMenuButton(true);
+  }
 
+  const handleCollapse = () => {
+    setMenuButton(false);
+  }
 
+  function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+    } else {
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+  }
 
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
@@ -249,52 +272,34 @@ function App() {
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
 
-    <div className="App" id="App">
-      <div className="header">
-        <div className="additems" onKeyDown={handleKeyDown}>
-          {/* <Todolist todos={todos} /> */}
-          <TitleContext.Provider value={title}>
-            <span>Task: </span>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </TitleContext.Provider>
-          <CategorieContext.Provider value={categorie}>
-            <span>Categorie: </span>
-            <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-          </CategorieContext.Provider>
-          <ImportanceContext.Provider value={importance}>
-            <label for="importance">Task importance: </label>
-            <select id="importance" name="importance">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </ImportanceContext.Provider>
-          <DeadlineContext.Provider value={deadline}>
-            <span>Due for: </span>
-            <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-          </DeadlineContext.Provider>
-          <UserContext.Provider value={user}>
-            <label for="user">User: </label>
-            <select id="user" name="user">
-              <option value="user1"></option>
-              <option value="user2"></option>
-              <option value="user3"></option>
-            </select>
-          </UserContext.Provider>
-          <button onClick={addItem}>Add</button>
-        </div>
-      </div>
-      <img className="trash" src={trash} alt="" />
+    <div className="App">
+      <Header 
+        title={title}
+        category={category}
+        setTitle={setTitle}
+        setcategory={setcategory}
+        deadline={deadline}
+        setDeadline={setDeadline}
+        addItem={addItem}
+        setTagColor={setTagColor}
+        setImportance={setImportance}
+        menuButton={menuButton}
+        handleKeyDown={handleKeyDown}
+        handleCollapse={handleCollapse}
+        handleExpand={handleExpand}
+        hexToRGB={hexToRGB}
+        setUser={setUser}
+        tagColor={tagColor}
+         />
       <div className='sections'>
-        <IDContext.Provider value={state}>
-          <DragDropContext onDragEnd={handleDragEnd}>
-            {_.map(state, (data, key) => {
-              return (
-                <Section onOpen={onOpen} index={key} onCard={onCard} data={data} />
-              )
-            })}
-          </DragDropContext>
-        </IDContext.Provider>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {_.map(state, (data, key) => {
+            return (
+              <Section index={key} data={data} />
+            )
+          })}
+          <Trash index={"trash"} data={state} />
+        </DragDropContext>
       </div>
       <Window
         handleChange={handleChange}
