@@ -1,6 +1,6 @@
 import Card from './Card';
 import { Droppable } from 'react-beautiful-dnd';
-import './App.css';
+import './Section.css';
 
 function Section ({index, data}) {
     return (  
