@@ -295,7 +295,7 @@ function App() {
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
-              <Section index={key} data={data} />
+              <Section index={key} data={data} oncard={onCard} />
             )
           })}
           <Trash index={"trash"} data={state} />
