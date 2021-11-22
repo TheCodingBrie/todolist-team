@@ -3,39 +3,40 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _ from 'lodash';
 import { v4 } from 'uuid';
-import Section from "./Section.js";
-import Header from './Header';
-import trash from "./images/trash.png"
+import Section from './Section.js';
+import Trash from './Trash.js';
+import Header from './Header.js'
+import bin from './images/trash.png'
+
+
 
 // const item = {
 //   id: v4(),
 //   title: "Clean the house",
-//   categorie: "Sport",
+//   category: "Sport",
 //   importance: "low",
 //   deadline: date.getDate(),
 //   user: {
-//     name: "Jenny",
+//     userid: (passed?)
+//     username: "Jenny",
 //     picture: {portrait}
 //   }
 // }
 
-
-const taskTemplate = {
-  title: '',
-  categorie: '',
-  importance: '',
-  deadline: '',
-  user: ''
-}
-
 function App() {
   /*to add a new task*/
-  // const [ newTask, setNewTask ] = useState(taskTemplate)
   const [title, setTitle] = useState("")
-  const [categorie, setCategorie] = useState("");
+  const [category, setcategory] = useState("");
+  const [tagColor, setTagColor] = useState("rgb(255,255,255)");
   const [importance, setImportance] = useState("low");
-  const [deadline, setDeadline] = useState(null);
-  const [user, setUser] = useState([]);
+  const [deadline, setDeadline] = useState("");
+  const [user, setUser] = useState({
+    id: v4(),
+    username: "",
+    portrait: ""
+  });
+
+  const [menuButton, setMenuButton] = useState(false);
 
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
@@ -58,6 +59,19 @@ function App() {
   const handleDragEnd = ({ destination, source }) => {
     /*no destination -> not dropped in droppable -> moved outside the actual droppable, but didn't move it to an droppable, so it moves back to the actual one*/
     if (!destination) {
+      return
+    }
+
+    if (destination.droppableId === "trash") {
+      setState(prev => {
+        
+        prev = {...prev}
+
+        prev[source.droppableId].items.splice(source.index, 1)
+
+        return prev
+      })
+
       return
     }
     /*dropped in same place, then do nothing -> didn't  move it outside the actual droppable*/
@@ -99,8 +113,9 @@ function App() {
             {
               id: v4(),
               title: title,
-              categorie: categorie,
-              importrance: importance,
+              category: category,
+              tagColor: tagColor,
+              importance: importance,
               deadline: deadline,
               user: user
             },
@@ -112,7 +127,8 @@ function App() {
     })
     /*clearing the entered text in the input field*/
     setTitle("");
-    setCategorie("");
+    setcategory("");
+    
   }
 
   /*Local storage*/
@@ -123,13 +139,11 @@ function App() {
   useEffect(() => {
     const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
     if (storedTodos) setState(storedTodos)
-    console.log('load')
   }, [])
 
   /*saving function*/
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
-    console.log('save')
   }, [state])
 
 
@@ -139,14 +153,26 @@ function App() {
       addItem();
     }};
 
-    /*
-      const cardItems = todos.map((todo) => {
-        ...todo,
-        user: users.find(user => todo.user === user.id)
-      })
-    */
+  const handleExpand = () => {
+    setMenuButton(true);
+    console.log("pouet");
+  }
 
+  const handleCollapse = () => {
+    setMenuButton(false);
+  }
 
+  function hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+    } else {
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+  }
 
   return (
     /* mapping through the different dropables - in our case status of todo,inprogress,done*/
@@ -154,17 +180,26 @@ function App() {
     /*key is gonna be the "todo",.. itself*/
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
+
     <div className="App">
       <Header 
         title={title}
-        categorie={categorie}
+        category={category}
         setTitle={setTitle}
-        setCategorie={setCategorie}
+        setcategory={setcategory}
         deadline={deadline}
         setDeadline={setDeadline}
         addItem={addItem}
+        setTagColor={setTagColor}
+        setImportance={setImportance}
+        menuButton={menuButton}
+        handleKeyDown={handleKeyDown}
+        handleCollapse={handleCollapse}
+        handleExpand={handleExpand}
+        hexToRGB={hexToRGB}
+        setUser={setUser}
          />
-      <img className="trash" src={trash} alt="" />
+      <img className="trash" src={bin} alt="" />
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
@@ -172,17 +207,8 @@ function App() {
               <Section index={key} data={data} />
             )
           })}
+          <Trash index={"trash"} data={state} />
         </DragDropContext>
-        {/* <DragDropContext onDragEnd={e => handleDelete}>
-          <Droppable droppableId={"123"}>
-            {(provided, snapshot) => {
-                return (
-                  <img className="trash" src={trash} alt="" />
-                )
-              } 
-            }
-          </Droppable>
-        </DragDropContext> */}
       </div>
     </div>
   );

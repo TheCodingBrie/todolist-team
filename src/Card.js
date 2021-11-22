@@ -1,5 +1,6 @@
 import { Draggable } from 'react-beautiful-dnd';
 import portrait from "./images/doggo.png"
+import './App.css';
 
 // el.user.portrait
 
@@ -16,20 +17,22 @@ function Card({ el, index }) {
             >
               <div className="cardTop">
                 <div className={el.importance}></div>
-                <span>{el.deadline}th November</span>
+                <span>{el.deadline}</span>
               </div>
               
-              <p>{el.title}</p>
+              <p className="task">{el.title}</p>
               
               <div className='cardBottom'>
-                <div className="categorie">
-                  <h4>{el.categorie}</h4>
+                <div className={el.category ? "category" : ""}
+                style={{
+                  backgroundColor: `${el.tagColor}`
+                }}>
+                  <h4>{el.category}</h4>
                 </div>
                 <div className="portrait-container">
                   <img className="portrait" src={portrait} alt=""/>
                 </div>
               </div>
-              
             </div>
           )
         }}

@@ -1,8 +1,8 @@
 variables & objects:
 
-categorieArray = [categorie1, categorie2, categorie3, etc.]
+categoryArray = [category1, category2, category3, etc.]
 
-categorieObject = {
+categoryObject = {
     tabTitle:
     taskArray: [{taskObject}, etc.]
 }
@@ -10,7 +10,7 @@ categorieObject = {
 taskObject {
     id:
     title:
-    categorie:
+    category:
     importance:
     deadline:
     userid:
@@ -33,12 +33,15 @@ how to setImportance with dropdown + setUser
 
 Todo
 
+
+- Add new user interface :
+- Task menu (popup) : Jenny
+- Make form a component: Valerio
+
+Done
+
 - Card + section css : Guillaume
 - Local storage : Jenny
 - Enter button for new task : Jenny
 - setImportance + setUser : Guillaume
-- Delete task icon :
-- Delete validation :
-- Add new user interface :
-- Task menu (popup) :
-- Make form a component: Valerio
+- Delete task icon : Guillaume
