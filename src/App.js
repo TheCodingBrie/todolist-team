@@ -20,9 +20,17 @@ import trash from "./images/trash.png"
 // }
 
 
+const taskTemplate = {
+  title: '',
+  categorie: '',
+  importance: '',
+  deadline: '',
+  user: ''
+}
 
 function App() {
   /*to add a new task*/
+  // const [ newTask, setNewTask ] = useState(taskTemplate)
   const [title, setTitle] = useState("")
   const [categorie, setCategorie] = useState("");
   const [importance, setImportance] = useState("low");
