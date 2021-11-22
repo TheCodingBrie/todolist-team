@@ -38,7 +38,6 @@ Todo
 - Enter button for new task : Jenny
 - setImportance + setUser : Guillaume
 - Delete task icon :
-- Delete validation :
 - Add new user interface :
 - Task menu (popup) :Jenny
 - Create parent-child components :

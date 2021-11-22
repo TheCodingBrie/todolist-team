@@ -5,6 +5,9 @@ import _ from 'lodash';
 import { v4 } from 'uuid';
 import Section from "./Section.js";
 import trash from "./images/trash.png"
+import Window from './Window';
+import ReactModal from 'react-modal';
+import { StateContext, IDContext, TitleContext, CategorieContext, ImportanceContext, DeadlineContext, UserContext } from './Context';
 
 // const item = {
 //   id: v4(),
@@ -18,7 +21,7 @@ import trash from "./images/trash.png"
 //   }
 // }
 
-
+ReactModal.setAppElement('#root')
 
 function App() {
   /*to add a new task*/
@@ -27,6 +30,21 @@ function App() {
   const [importance, setImportance] = useState("low");
   const [deadline, setDeadline] = useState(null);
   const [user, setUser] = useState([]);
+
+
+  /*Modal*/
+  const [show, setShow] = useState(false);
+
+  const [temp, setTemp] = useState({});
+
+
+  /*edit function Modal*/
+  /*to see, if we're editing*/
+  //const [isEditing, setIsEditing] = useState(false);
+  /*to know, which item is edited*/
+  //const [currentItem, setCurrentItem] = useState({});
+
+
 
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
@@ -77,6 +95,82 @@ function App() {
     })
   }
 
+  /*popupwindow*/
+  const onOpen = () => setShow(true);
+
+  const onClose = () => setShow(false);
+
+  /*sending the elements of items up to the "parent" */
+  const onCard = (el) => setTemp(el);
+
+
+  /*const variableOne = state.item.filter(item => item.id === id);*/
+
+
+  /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
+  /*const handleChange = (el) => {
+      const value = el.target.value;
+      setTemp({
+        /*because we are using a single state object that contains multiple properties, we're spreading (...state) the existing state back into the new state value, merging it manually, when calling setState. */
+
+  /*we're targeting each input field by their name and taking the value in it*/
+  /*create a dynamic key name in the object. Because the form name props match the state property keys, the title input will set the title state and so on.*/
+  // [el.target.name]: value
+  //});
+  //}
+
+
+  /*updating values in modal*/
+  const handleChange = (el) => {
+    /*creating new const in order to change the values of temp*/
+    const name = el.target.name
+    const value = el.target.value
+    setTemp({
+      ...temp,
+      [name]: value
+    })
+  }
+
+
+  const handleUpdate = () => {
+    const newTodos = state.todo.items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newTodos)
+    const newInProgress = state['in-progress'].items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newInProgress)
+
+    const newDone = state.done.items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newDone)
+
+    return setState({
+      'todo': {
+        section: "Todo",
+        items: newTodos
+      },
+      'in-progress': {
+        section: 'In-Progress',
+        items: newInProgress
+      },
+      'done': {
+        section: 'Completed',
+        items: newDone
+      }
+    })
+  }
+
+ 
+
+
+
+
   const addItem = () => {
     if (title === "") return
     setState(prev => {
@@ -91,7 +185,7 @@ function App() {
               id: v4(),
               title: title,
               categorie: categorie,
-              importrance: importance,
+              importance: importance,
               deadline: deadline,
               user: user
             },
@@ -121,21 +215,30 @@ function App() {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
     console.log('save')
-  }, [state])
+  }, [state]) 
+  
 
 
   /*add task by pressing key button*/
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
       addItem();
-    }};
+    }
+  };
 
-    /*
-      const cardItems = todos.map((todo) => {
-        ...todo,
-        user: users.find(user => todo.user === user.id)
-      })
-    */
+
+  /*update modal by pressing enter button with keyup*/
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      handleUpdate();
+    }
+  };
+  /*
+    const cardItems = todos.map((todo) => {
+      ...todo,
+      user: users.find(user => todo.user === user.id)
+    })
+  */
 
 
 
@@ -145,51 +248,62 @@ function App() {
     /*key is gonna be the "todo",.. itself*/
     /*inside droppable we have to put a funtion, that is calling the children (props)*/
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
-    <div className="App">
+
+    <div className="App" id="App">
       <div className="header">
-      <div className="additems" onKeyDown={handleKeyDown}>
-        {/* <Todolist todos={todos} /> */}
-        <span>Task: </span>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <span>Categorie: </span>
-        <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
-        <label for="importance">Task importance: </label>
-        <select id="importance" name="importance">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <span>Due for: </span>
-        <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        <label for="user">User: </label>
-        <select id="user" name="user">
-            <option value="user1"></option>
-            <option value="user2"></option>
-            <option value="user3"></option>
-        </select>
-        <button onClick={addItem}>Add</button>
-      </div>
+        <div className="additems" onKeyDown={handleKeyDown}>
+          {/* <Todolist todos={todos} /> */}
+          <TitleContext.Provider value={title}>
+            <span>Task: </span>
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          </TitleContext.Provider>
+          <CategorieContext.Provider value={categorie}>
+            <span>Categorie: </span>
+            <input type="text" value={categorie} onChange={(e) => setCategorie(e.target.value)} />
+          </CategorieContext.Provider>
+          <ImportanceContext.Provider value={importance}>
+            <label for="importance">Task importance: </label>
+            <select id="importance" name="importance">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </ImportanceContext.Provider>
+          <DeadlineContext.Provider value={deadline}>
+            <span>Due for: </span>
+            <input type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+          </DeadlineContext.Provider>
+          <UserContext.Provider value={user}>
+            <label for="user">User: </label>
+            <select id="user" name="user">
+              <option value="user1"></option>
+              <option value="user2"></option>
+              <option value="user3"></option>
+            </select>
+          </UserContext.Provider>
+          <button onClick={addItem}>Add</button>
+        </div>
       </div>
       <img className="trash" src={trash} alt="" />
       <div className='sections'>
-        <DragDropContext onDragEnd={handleDragEnd}>
-          {_.map(state, (data, key) => {
-            return (
-              <Section index={key} data={data} />
-            )
-          })}
-        </DragDropContext>
-        {/* <DragDropContext onDragEnd={e => handleDelete}>
-          <Droppable droppableId={"123"}>
-            {(provided, snapshot) => {
-                return (
-                  <img className="trash" src={trash} alt="" />
-                )
-              } 
-            }
-          </Droppable>
-        </DragDropContext> */}
+        <IDContext.Provider value={state}>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            {_.map(state, (data, key) => {
+              return (
+                <Section onOpen={onOpen} index={key} onCard={onCard} data={data} />
+              )
+            })}
+          </DragDropContext>
+        </IDContext.Provider>
       </div>
+      <Window
+        handleChange={handleChange}
+        temp={temp}
+        onClose={onClose}
+        show={show}
+        handleUpdate={handleUpdate}
+        handleKeyUp={handleKeyUp}
+      />
     </div>
   );
 }

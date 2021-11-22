@@ -1,14 +1,27 @@
 import { Draggable } from 'react-beautiful-dnd';
 import portrait from "./images/doggo.png"
+import Window from "./Window"
+import React, { useContext, Fragment, useState} from "react";
+
 
 // el.user.portrait
 
-function Card({ el, index }) {
-    return (
+
+function Card({ el, index, onOpen, onCard, handleSubmit }) {
+  console.log()
+
+const onClick = (el) => {
+  onCard(el) 
+  onOpen()
+}
+
+  return (
+    <Fragment>
         <Draggable key={el.id} index={index} draggableId={el.id}>
         {(provided, snapshot) => {
           return (
             <div
+              onClick={() => onClick(el)}
               className={`item ${snapshot.isDragging && "dragging"}`}
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -34,7 +47,8 @@ function Card({ el, index }) {
           )
         }}
       </Draggable>
-    );
+      </Fragment> 
+  );
 }
 
 export default Card;

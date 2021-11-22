@@ -1,7 +1,9 @@
 import Card from './Card';
 import { Droppable } from 'react-beautiful-dnd';
+import { StateContext } from './Context';
 
-function Section ({index, data}) {
+
+function Section ({ index, data, onOpen, onCard, handleSubmit }) {
     return (  
         <div key={index} className={"column"}>
             <h3>{data.section}</h3>
@@ -13,13 +15,16 @@ function Section ({index, data}) {
                     {...provided.droppableProps}
                     className={"droppable-col"}
                 >
-                    {data.items.map((el, idx) => <Card el={el} index={idx}/>)}
-                    {provided.placeholder}
+                    {data.items.map((el, idx) => <Card onOpen={onOpen} onCard={onCard} obSubmit={handleSubmit} el={el} index={idx} />)}
+                    {provided.placeholder}  
                 </div>
+                
                 )
             }}
         </Droppable>
+        
         </div>
+        
 );
 }
 
