@@ -1,6 +1,6 @@
 import { Draggable } from 'react-beautiful-dnd';
 import portrait from "./images/doggo.png"
-import './App.css';
+import './Card.css';
 
 // el.user.portrait
 

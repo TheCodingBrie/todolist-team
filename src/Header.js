@@ -2,6 +2,9 @@ import logo from "./images/logo.png"
 import expand from "./images/expand.png"
 import collapse from "./images/collapse.png"
 import add from "./images/plus.png"
+import './Header.css';
+
+
 
 export default function Header({
   handleKeyDown,
