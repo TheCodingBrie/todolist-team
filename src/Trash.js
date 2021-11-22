@@ -1,6 +1,6 @@
 import bin from "./images/trash.png"
-import { Droppable } from 'react-beautiful-dnd'
-import './Trash.css'; 
+import { Droppable } from 'react-beautiful-dnd';
+import './Trash.css';
 
 function trash({index, state}) {
     return ( 
