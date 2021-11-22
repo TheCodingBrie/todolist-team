@@ -6,7 +6,6 @@ import { v4 } from 'uuid';
 import Section from './Section.js';
 import Trash from './Trash.js';
 import Header from './Header.js'
-import bin from './images/trash.png'
 
 function App() {
   /*to add a new task*/
@@ -188,7 +187,6 @@ function App() {
         setUser={setUser}
         tagColor={tagColor}
          />
-      <img className="trash" src={bin} alt="" />
       <div className='sections'>
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
