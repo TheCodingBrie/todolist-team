@@ -3,7 +3,6 @@ import { Droppable } from 'react-beautiful-dnd';
 import './App.css';
 
 function Section ({index, data}) {
-    console.log(index)
     return (  
         <div key={index} className={`column-${index}`}>
             <h3>{data.section}</h3>

@@ -1,33 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
-import _ from 'lodash';
+import _, { template } from 'lodash';
 import { v4 } from 'uuid';
 import Section from './Section.js';
 import Trash from './Trash.js';
 import Header from './Header.js'
 import bin from './images/trash.png'
 
-
-
-// const item = {
-//   id: v4(),
-//   title: "Clean the house",
-//   category: "Sport",
-//   importance: "low",
-//   deadline: date.getDate(),
-//   user: {
-//     userid: (passed?)
-//     username: "Jenny",
-//     picture: {portrait}
-//   }
-// }
-
 function App() {
   /*to add a new task*/
   const [title, setTitle] = useState("")
   const [category, setcategory] = useState("");
-  const [tagColor, setTagColor] = useState("rgb(255,255,255)");
+  const [tagColor, setTagColor] = useState("#ffffff");
   const [importance, setImportance] = useState("low");
   const [deadline, setDeadline] = useState("");
   const [user, setUser] = useState({
@@ -155,7 +140,6 @@ function App() {
 
   const handleExpand = () => {
     setMenuButton(true);
-    console.log("pouet");
   }
 
   const handleCollapse = () => {
@@ -198,6 +182,7 @@ function App() {
         handleExpand={handleExpand}
         hexToRGB={hexToRGB}
         setUser={setUser}
+        tagColor={tagColor}
          />
       <img className="trash" src={bin} alt="" />
       <div className='sections'>

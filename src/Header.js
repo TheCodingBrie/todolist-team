@@ -18,8 +18,10 @@ export default function Header({
   setTagColor,
   hexToRGB,
   setImportance,
-  handleCollapse
+  handleCollapse,
+  tagColor
 }) {
+
   return (
     <header onKeyDown={handleKeyDown}>
         <img className="logo"  src={logo} alt=""/>
@@ -46,7 +48,7 @@ export default function Header({
         <div className={menuButton ? "full-form" : "hidden-form"}>
             <label for="category">Category: 
               <input id="category" className="text" type="text" value={category} onChange={(e) => setcategory(e.target.value)} />
-              <input className="color" value="#ffffff" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
+              <input className="color" type="color"onChange={(e) => setTagColor(hexToRGB(e.target.value))}/>
             </label>
           <div className="sub-full-form-bottom">
             <label for="importance">Priority: 
@@ -61,9 +63,22 @@ export default function Header({
             </label>
           </div>
         </div>
+        <div className={menuButton ? "userPannel" : "hidden-form"}>
+          <label>New User: 
+            <input className="text" type="text"></input>
+          </label>
+          <label>Delete User: 
+            <select id="user" name="user" onChange={(e) => setUser(e.target.value)} >
+              <option value="user1">username1</option>
+              <option value="user2">username2</option>
+              <option value="user3">username3</option>
+            </select>
+          </label>
+        </div>
         <button className={`expand-button ${menuButton ? "" : "hidden"}`} onClick={handleCollapse}>
           <img width="25px" src={collapse} alt=""/>
         </button>
+        
       </header>
   )
 }

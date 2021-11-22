@@ -248,7 +248,6 @@ select {
 
 .full-form {
   padding: 6px;
-  display: hidden;
   flex-direction: column;
   justify-content: space-around;
   border: #eae7dc 1px dotted;
@@ -286,4 +285,13 @@ label {
 
 .hidden {
   display: none;
+}
+
+.userPannel {
+  padding: 6px;
+  display: hidden;
+  flex-direction: column;
+  justify-content: space-around;
+  border: #eae7dc 1px dotted;
+  margin: 20px;
 }
