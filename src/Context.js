@@ -6,7 +6,7 @@ export const IDContext = createContext();
 
 export const TitleContext = createContext();
 
-export const CategorieContext = createContext();
+export const categoryContext = createContext();
 
 export const ImportanceContext = createContext();
 

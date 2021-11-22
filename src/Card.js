@@ -14,6 +14,7 @@ const onClick = (el) => {
 }
 
   return (
+    <>
         <Draggable key={el.id} index={index} draggableId={el.id}>
         {(provided, snapshot) => {
           return (
@@ -46,6 +47,7 @@ const onClick = (el) => {
           )
         }}
       </Draggable>
+      </>
   );
 }
 

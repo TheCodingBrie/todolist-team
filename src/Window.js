@@ -1,18 +1,10 @@
-import React, { useContext } from 'react'
 import Modal from 'react-modal'
 import './App.js'
-import { StateContext, CategorieContext, DeadlineContext, IDContext, ImportanceContext, TitleContext, UserContext } from './Context.js';
 import './Window.css'
 import { FaRegEdit, FaThumbtack } from "react-icons/fa";
 
 export default function Window({ show, onClose, temp, handleChange, handleUpdate, handleKeyUp }) {
-    /*const stateContext = useContext(StateContext);
-    const idContext = useContext(IDContext);
-    const titleContext = useContext(TitleContext);
-    const categorieContext = useContext(CategorieContext);
-    const importanceContext = useContext(ImportanceContext);
-    const deadlineContext = useContext(DeadlineContext);
-    const userContext = useContext(UserContext);*/
+   
 
     const onClick = () => {
         onClose() 
@@ -34,7 +26,6 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
             onRequestClose={onClose}
             className={"Modal"}
             overlayClassName={"Overlay"}
-            parentSelector={() => document.querySelector('#App')}
         >
 
             <div className="headcontainermodal">
@@ -66,12 +57,12 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                         </div>
                         <div className="formrow">
                             <div className="form-col-25">
-                                <label>Categorie</label>
+                                <label>category</label>
                             </div>
                             <div className="form-col-75">
                                 <div className="form-container-icon">
-                                    <input type="text" value={temp?.categorie} id="categorie" onChange={(el) => handleChange(el)} name="categorie" />
-                                    <FaRegEdit className="formeditcategorie" />
+                                    <input type="text" value={temp?.category} id="category" onChange={(el) => handleChange(el)} name="category" />
+                                    <FaRegEdit className="formeditcategory" />
                                 </div>
                             </div>
                         </div>
