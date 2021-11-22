@@ -3,9 +3,15 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
 import _, { template } from 'lodash';
 import { v4 } from 'uuid';
-import Section from './Section.js';
+import Section from "./Section.js";
+import Window from './Window';
+import ReactModal from 'react-modal';
 import Trash from './Trash.js';
 import Header from './Header.js'
+
+
+ReactModal.setAppElement('#root')
+
 
 function App() {
   /*to add a new task*/
@@ -22,6 +28,14 @@ function App() {
 
   const [menuButton, setMenuButton] = useState(false);
 
+
+  /*Modal*/
+  const [show, setShow] = useState(false);
+
+  const [temp, setTemp] = useState({});
+
+
+  
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
     "todo": {
@@ -86,6 +100,82 @@ function App() {
     })
   }
 
+  /*popupwindow*/
+  const onOpen = () => setShow(true);
+
+  const onClose = () => setShow(false);
+
+  /*sending the elements of items up to the "parent" */
+  const onCard = (el) => setTemp(el);
+
+
+ 
+
+
+  /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
+  /*const handleChange = (el) => {
+      const value = el.target.value;
+      setTemp({
+        /*because we are using a single state object that contains multiple properties, we're spreading (...state) the existing state back into the new state value, merging it manually, when calling setState. */
+
+  /*we're targeting each input field by their name and taking the value in it*/
+  /*create a dynamic key name in the object. Because the form name props match the state property keys, the title input will set the title state and so on.*/
+  // [el.target.name]: value
+  //});
+  //}
+
+
+  /*updating values in modal*/
+  const handleChange = (el) => {
+    /*creating new const in order to change the values of temp*/
+    const name = el.target.name
+    const value = el.target.value
+    setTemp({
+      ...temp,
+      [name]: value
+    })
+  }
+
+
+  const handleUpdate = () => {
+    const newTodos = state.todo.items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newTodos)
+    const newInProgress = state['in-progress'].items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newInProgress)
+
+    const newDone = state.done.items.map((el) => {
+      if (el.id === temp.id) return temp;
+      return el
+    })
+    console.log(newDone)
+
+    return setState({
+      'todo': {
+        section: "Todo",
+        items: newTodos
+      },
+      'in-progress': {
+        section: 'In-Progress',
+        items: newInProgress
+      },
+      'done': {
+        section: 'Completed',
+        items: newDone
+      }
+    })
+  }
+
+ 
+
+
+
+
   const addItem = () => {
     if (title === "") return
     categorySet[category] = category;
@@ -139,8 +229,22 @@ function App() {
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
       addItem();
-    }};
+    }
+  };
 
+
+  /*update modal by pressing enter button with keyup*/
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      handleUpdate();
+    }
+  };
+  /*
+    const cardItems = todos.map((todo) => {
+      ...todo,
+      user: users.find(user => todo.user === user.id)
+    })
+  */
   const handleExpand = () => {
     setMenuButton(true);
   }
@@ -197,6 +301,14 @@ function App() {
           <Trash index={"trash"} data={state} />
         </DragDropContext>
       </div>
+      <Window
+        handleChange={handleChange}
+        temp={temp}
+        onClose={onClose}
+        show={show}
+        handleUpdate={handleUpdate}
+        handleKeyUp={handleKeyUp}
+      />
     </div>
   );
 }

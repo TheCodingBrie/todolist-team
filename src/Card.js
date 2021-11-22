@@ -4,12 +4,22 @@ import './Card.css';
 
 // el.user.portrait
 
-function Card({ el, index }) {
-    return (
+
+function Card({ el, index, onOpen, onCard, handleSubmit }) {
+  console.log()
+
+const onClick = (el) => {
+  onCard(el) 
+  onOpen()
+}
+
+  return (
+    <>
         <Draggable key={el.id} index={index} draggableId={el.id}>
         {(provided, snapshot) => {
           return (
             <div
+              onClick={() => onClick(el)}
               className={`item ${snapshot.isDragging && "dragging"}`}
               ref={provided.innerRef}
               {...provided.draggableProps}
@@ -37,7 +47,8 @@ function Card({ el, index }) {
           )
         }}
       </Draggable>
-    );
+      </>
+  );
 }
 
 export default Card;

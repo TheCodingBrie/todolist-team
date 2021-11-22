@@ -48,8 +48,15 @@ Done
 - Local storage : Jenny
 - Enter button for new task : Jenny
 - setImportance + setUser : Guillaume
+<<<<<<< HEAD
+- Delete task icon :
+- Add new user interface :
+- Task menu (popup) :Jenny
+- Create parent-child components :
+=======
 - Delete task icon : Guillaume
 <<<<<<< HEAD
+>>>>>>> 3b5a03a638d056b7b1cf2b100e4d3617ba905e74
 - Make form a component: Valerio
 =======
 - Dividing css files : Valerio
