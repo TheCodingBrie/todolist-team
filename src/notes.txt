@@ -36,7 +36,7 @@ Todo
 
 - Add new user interface :
 - Task menu (popup) : Jenny
-- Make form a component: Valerio -> there is a problem 
+- Make form a component: Valerio -> there is a problem with header.js that would lead to much trouble when doing that
 
 Done
 
@@ -45,3 +45,4 @@ Done
 - Enter button for new task : Jenny
 - setImportance + setUser : Guillaume
 - Delete task icon : Guillaume
+- Dividing css files : Valerio
