@@ -51,7 +51,7 @@
     text-align: center;
     color: black;
     width: 33%;
-    height: 20px;
+    height: 25px;
 }
 
 .usercontainer {
@@ -66,16 +66,17 @@
 .portrait-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     border: 2px solid black;
-    width: auto;
-    height: auto;
     border-radius: 50%;
     padding: 7px;
+    height: 50px;
+    width: 50px;
 }
 
 
 .portrait {
-    width: 25px;
+    height: 30px;
 }
 
 .high {
