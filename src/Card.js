@@ -2,10 +2,8 @@ import { Draggable } from 'react-beautiful-dnd';
 import portrait from "./images/doggo.png"
 import './Card.css';
 
-// el.user.portrait
 
-
-function Card({ el, index, onOpen, onCard, handleSubmit }) {
+function Card({ el, index, onOpen, onCard }) {
   console.log()
 
 const onClick = (el) => {

@@ -30,7 +30,7 @@ export default function Header({
         <img className="logo"  src={logo} alt=""/>
         <div className="base-form">
         <label for="todo">Task : 
-          <input id="todo" className="text" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input id="todo" className="text" required type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         </label>
         <div className="sub-base-form">
           <label for="user">User: 
@@ -71,7 +71,7 @@ export default function Header({
             <input className="text" type="text"></input>
           </label>
           <label>Delete User: 
-            <select id="user" name="user" onChange={(e) => setUser(e.target.value)} >
+            <select id="user" name="user" className="chooseuser" onChange={(e) => setUser(e.target.value)} >
               <option value="user1">username1</option>
               <option value="user2">username2</option>
               <option value="user3">username3</option>
