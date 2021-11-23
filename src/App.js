@@ -277,12 +277,14 @@ function App() {
         tagColor={tagColor}
         handleAddUser={handleAddUser}
         handleDeleteUser={handleDeleteUser}
+        key="header"
       />
       <div className="sections">
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
               <Section
+                key={key}
                 index={key}
                 data={data}
                 onCard={onCard}

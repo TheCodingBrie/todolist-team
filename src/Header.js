@@ -28,7 +28,7 @@ export default function Header({
     <header onKeyDown={handleKeyDown}>
       <img className="logo" src={logo} alt="" />
       <div className="base-form">
-        <label for="todo">
+        <label>
           Task :
           <input
             id="todo"
@@ -40,7 +40,7 @@ export default function Header({
           />
         </label>
         <div className="sub-base-form">
-          <label for="user">
+          <label>
             User:
             <select
               id="user"
@@ -76,7 +76,7 @@ export default function Header({
         <img width="25px" src={expand} alt="" />
       </button>
       <div className={menuButton ? "full-form" : "hidden-form"}>
-        <label for="category">
+        <label>
           Category:
           <input
             id="category"
@@ -95,7 +95,7 @@ export default function Header({
           />
         </label>
         <div className="sub-full-form-bottom">
-          <label for="importance">
+          <label>
             Priority:
             <select
               id="importance"
