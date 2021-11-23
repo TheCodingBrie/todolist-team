@@ -35,8 +35,11 @@ function Card({ el, index, onOpen, onCard }) {
               >
                 <h4>{el.category}</h4>
               </div>
-              <div className="portrait-container">
-                <img className="portrait" src={portrait} alt="" />
+              <div class="usercontainer">
+                <p className="username">{el.user}</p>
+                <div className="portrait-container">
+                  <img className="portrait" src={portrait} alt="" />
+                </div>
               </div>
             </div>
           </div>

@@ -51,7 +51,7 @@ label {
     border-radius: 7px;
     background-color: #eae7dc;
     height: 2em;
-    font-size: .9em;
+    font-size: .8em;
     margin: 10px;
 }
 
@@ -59,12 +59,16 @@ label {
     margin: 10px;
 }
 
+.text#category{
+    width: 70%;
+}
+
 select {
     border: 1px solid #8e8d8a;
     border-radius: 7px;
     background-color: #eae7dc;
     height: 2em;
-    font-size: .9em;
+    font-size: .8em;
     margin: 10px;
 }
 

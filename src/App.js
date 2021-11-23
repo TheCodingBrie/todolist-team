@@ -300,6 +300,8 @@ function App() {
         show={show}
         handleUpdate={handleUpdate}
         handleKeyUp={handleKeyUp}
+        hexToRGB={hexToRGB}
+        tagColor={tagColor}
       />
     </div>
   );
