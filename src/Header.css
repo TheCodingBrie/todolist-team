@@ -55,7 +55,7 @@ label {
     margin: 10px;
 }
 
-#user {
+.user {
     margin: 10px;
 }
 
@@ -128,4 +128,9 @@ select {
     justify-content: space-around;
     border: #eae7dc 1px dotted;
     margin: 20px;
+}
+
+.user-button {
+    border-color: #eae7dc;
+    background-color: #d8c3a5;
 }

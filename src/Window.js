@@ -40,7 +40,6 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                 </div>
             </div>
 
-
             <div className="modalcontainer">
                 <div className="modal-content">
                     <form onKeyUp={onKeyUp}>
@@ -91,7 +90,7 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                                 <label>User</label>
                             </div>
                             <div className="form-col-75">
-                                <input type="text" value={temp?.user} id="user" name="user" onChange={(el) => handleChange(el)} />
+                                <input type="text" value={temp.user} id="user" name="user" onChange={(el) => handleChange(el)} />
                             </div>
                         </div>
                     </form>

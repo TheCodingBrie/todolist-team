@@ -1,104 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-import './App.css';
-import _, { template } from 'lodash';
-import { v4 } from 'uuid';
+import React, { useState, useEffect } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
+import "./App.css";
+import _ from "lodash";
+import { v4 } from "uuid";
 import Section from "./Section.js";
-import Window from './Window';
-import ReactModal from 'react-modal';
-import Trash from './Trash.js';
-import Header from './Header.js'
+import Window from "./Window";
+import ReactModal from "react-modal";
+import Trash from "./Trash.js";
+import Header from "./Header.js";
 
-
-ReactModal.setAppElement('#root')
-
+ReactModal.setAppElement("#root");
 
 function App() {
   /*to add a new task*/
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("");
   const [category, setcategory] = useState("");
   const [tagColor, setTagColor] = useState("#ffffff");
   const [importance, setImportance] = useState("low");
   const [deadline, setDeadline] = useState("");
-  const [user, setUser] = useState({
-    id: v4(),
-    username: "",
-    portrait: ""
-  });
-
+  const [user, setUser] = useState("Jenny");
   const [menuButton, setMenuButton] = useState(false);
-
 
   /*Modal*/
   const [show, setShow] = useState(false);
 
   const [temp, setTemp] = useState({});
 
-
-  
   /*setting up the data structure: everytime state get called, it is showing the following informations. They are gonna be retured by mapping through the items function at the bottom. Set state is also called by moving an item or adding an item*/
   const [state, setState] = useState({
-    "todo": {
+    todo: {
       section: "Todo",
-      items: []
+      items: [],
     },
     "in-progress": {
       section: "In Progress",
-      items: []
+      items: [],
     },
-    "done": {
+    done: {
       section: "Completed",
-      items: []
-    }
-  })
+      items: [],
+    },
+  });
 
-  const categorySet = {}
+  const users = [];
 
+  // {
+  //   userid: v4(),
+  //   username:
+  //   portrait:
+  // }
   /*after dragging, we want to have the item on the dragged-to state and not staying in the old one*/
   /*data comes from the react dnd - like destination & source*/
   const handleDragEnd = ({ destination, source }) => {
     /*no destination -> not dropped in droppable -> moved outside the actual droppable, but didn't move it to an droppable, so it moves back to the actual one*/
     if (!destination) {
-      return
+      return;
     }
 
     if (destination.droppableId === "trash") {
-      setState(prev => {
-        
-        prev = {...prev}
+      setState((prev) => {
+        prev = { ...prev };
 
-        prev[source.droppableId].items.splice(source.index, 1)
+        prev[source.droppableId].items.splice(source.index, 1);
 
-        return prev
-      })
+        return prev;
+      });
 
-      return
+      return;
     }
     /*dropped in same place, then do nothing -> didn't  move it outside the actual droppable*/
-    if (destination.index === source.index && destination.droppableId === source.droppableId) {
-      return
+    if (
+      destination.index === source.index &&
+      destination.droppableId === source.droppableId
+    ) {
+      return;
     }
     /*to actually move it from the source to the destination, we create a copy of the items first*/
     /*source.droppableID takes the id, eg "Todo", "in-progress"..*/
     /*items is taking the items inside this id's. Inside the items are indexes, eg item1 and item2 are index 0 and 1*/
     /*creating a copy of item before removing it from the state*/
-    const itemCopy = { ...state[source.droppableId].items[source.index] }
+    const itemCopy = { ...state[source.droppableId].items[source.index] };
     /*then remove it from the actual location*/
-    setState(prev => {
+    setState((prev) => {
       /*creating a copy of the previous state*/
-      prev = { ...prev }
+      prev = { ...prev };
       /*going into the items - inside the items, we're moving a set of items from source.index, but removing just 1 item*/
-      prev[source.droppableId].items.splice(source.index, 1)
+      prev[source.droppableId].items.splice(source.index, 1);
       /*instead of just deleting it, we wanna move it to the new state*/
       /*use the destination and put the copied item there - that could be the same destination with reodering items or a new destination*/
       /*we're using the data structure with droppableID's to exactly tell where to move the items - droppableID="todo"usw.*/
       /*splice works in two ways: either just deleting items or deleting them and add items to replace what we deleted*/
       /*function: from our copied stat "prev", we're going into the droppableId (eg "done"), we'Re going further into the items of eg"done" and splice from the destination index (e.g. [0]) , removes nothing (0) and it adds an item*/
-      prev[destination.droppableId].items.splice(destination.index, 0, itemCopy)
+      prev[destination.droppableId].items.splice(
+        destination.index,
+        0,
+        itemCopy
+      );
 
-      return prev
-    })
-  }
+      return prev;
+    });
+  };
 
   /*popupwindow*/
   const onOpen = () => setShow(true);
@@ -107,10 +108,6 @@ function App() {
 
   /*sending the elements of items up to the "parent" */
   const onCard = (el) => setTemp(el);
-
-
- 
-
 
   /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
   /*const handleChange = (el) => {
@@ -124,63 +121,51 @@ function App() {
   //});
   //}
 
-
   /*updating values in modal*/
   const handleChange = (el) => {
     /*creating new const in order to change the values of temp*/
-    const name = el.target.name
-    const value = el.target.value
+    const name = el.target.name;
+    const value = el.target.value;
     setTemp({
       ...temp,
-      [name]: value
-    })
-  }
-
+      [name]: value,
+    });
+  };
 
   const handleUpdate = () => {
     const newTodos = state.todo.items.map((el) => {
       if (el.id === temp.id) return temp;
-      return el
-    })
-    console.log(newTodos)
-    const newInProgress = state['in-progress'].items.map((el) => {
+      return el;
+    });
+    const newInProgress = state["in-progress"].items.map((el) => {
       if (el.id === temp.id) return temp;
-      return el
-    })
-    console.log(newInProgress)
+      return el;
+    });
 
     const newDone = state.done.items.map((el) => {
       if (el.id === temp.id) return temp;
-      return el
-    })
-    console.log(newDone)
+      return el;
+    });
 
     return setState({
-      'todo': {
+      todo: {
         section: "Todo",
-        items: newTodos
+        items: newTodos,
       },
-      'in-progress': {
-        section: 'In-Progress',
-        items: newInProgress
+      "in-progress": {
+        section: "In-Progress",
+        items: newInProgress,
       },
-      'done': {
-        section: 'Completed',
-        items: newDone
-      }
-    })
-  }
-
- 
-
-
-
+      done: {
+        section: "Completed",
+        items: newDone,
+      },
+    });
+  };
 
   const addItem = () => {
-    if (title === "") return
-    categorySet[category] = category;
-    console.log(categorySet)
-    setState(prev => {
+    if (title === "") return;
+    setState((prev) => {
       return {
         /*copy the previous state*/
         ...prev,
@@ -195,35 +180,49 @@ function App() {
               tagColor: tagColor,
               importance: importance,
               deadline: deadline,
-              user: user
+              user: user,
             },
             /*copy previous items and add the new item to it*/
-            ...prev.todo.items
-          ]
-        }
-      }
-    })
+            ...prev.todo.items,
+          ],
+        },
+      };
+    });
     /*clearing the entered text in the input field*/
     setTitle("");
     setcategory("");
-    console.log(categorySet)
-  }
+  };
+
+  /* User functions */
+
+  const handleAddUser = (e) => {
+    console.log(e.target.value);
+    users.push({
+      id: v4(),
+      username: e.target.value,
+    });
+    console.log(users);
+  };
+
+  const handleDeleteUser = () => {
+    if (users) {
+    }
+  };
 
   /*Local storage*/
 
-  const LOCAL_STORAGE_KEY = 'todoApp.todos'
+  const LOCAL_STORAGE_KEY = "todoApp.todos";
 
   /*loading the stored items*/
   useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedTodos) setState(storedTodos)
-  }, [])
+    const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (storedTodos) setState(storedTodos);
+  }, []);
 
   /*saving function*/
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state))
-  }, [state])
-
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
+  }, [state]);
 
   /*add task by pressing key button*/
   const handleKeyDown = (e) => {
@@ -232,36 +231,30 @@ function App() {
     }
   };
 
-
   /*update modal by pressing enter button with keyup*/
   const handleKeyUp = (e) => {
     if (e.keyCode === 13) {
       handleUpdate();
     }
   };
-  /*
-    const cardItems = todos.map((todo) => {
-      ...todo,
-      user: users.find(user => todo.user === user.id)
-    })
-  */
+
   const handleExpand = () => {
     setMenuButton(true);
-  }
+  };
 
   const handleCollapse = () => {
     setMenuButton(false);
-  }
+  };
 
   function hexToRGB(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
-        g = parseInt(hex.slice(3, 5), 16),
-        b = parseInt(hex.slice(5, 7), 16);
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
 
     if (alpha) {
-        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+      return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
     } else {
-        return "rgb(" + r + ", " + g + ", " + b + ")";
+      return "rgb(" + r + ", " + g + ", " + b + ")";
     }
   }
 
@@ -273,7 +266,7 @@ function App() {
     /*props are provided by us from Droppable by react--beautifuldnd - are essential for us to use dnd*/
 
     <div className="App">
-      <Header 
+      <Header
         title={title}
         category={category}
         setTitle={setTitle}
@@ -290,13 +283,20 @@ function App() {
         hexToRGB={hexToRGB}
         setUser={setUser}
         tagColor={tagColor}
-         />
-      <div className='sections'>
+        handleAddUser={handleAddUser}
+        handleDeleteUser={handleDeleteUser}
+      />
+      <div className="sections">
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
-              <Section index={key} data={data} onCard={onCard} onOpen={onOpen} />
-            )
+              <Section
+                index={key}
+                data={data}
+                onCard={onCard}
+                onOpen={onOpen}
+              />
+            );
           })}
           <Trash index={"trash"} data={state} />
         </DragDropContext>
@@ -314,4 +314,3 @@ function App() {
 }
 
 export default App;
-
