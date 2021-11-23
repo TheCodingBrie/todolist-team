@@ -61,3 +61,6 @@ Done
 =======
 - Dividing css files : Valerio
 >>>>>>> de5077127e9faac0fa8831316143427c798e473e
+
+Add user to Card
+Add color change to card
