@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import './App.css';
-import _, { template } from 'lodash';
+import Section from './Section';
+import _ from 'lodash';
 import { v4 } from 'uuid';
-import Section from "./Section.js";
 import Window from './Window';
 import ReactModal from 'react-modal';
 import Trash from './Trash.js';
@@ -109,29 +109,18 @@ function App() {
   const onCard = (el) => setTemp(el);
 
 
- 
-
-
-  /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
-  /*const handleChange = (el) => {
-      const value = el.target.value;
-      setTemp({
-        /*because we are using a single state object that contains multiple properties, we're spreading (...state) the existing state back into the new state value, merging it manually, when calling setState. */
-
-  /*we're targeting each input field by their name and taking the value in it*/
-  /*create a dynamic key name in the object. Because the form name props match the state property keys, the title input will set the title state and so on.*/
-  // [el.target.name]: value
-  //});
-  //}
-
 
   /*updating values in modal*/
   const handleChange = (el) => {
     /*creating new const in order to change the values of temp*/
+    /*We funnel all changes through that one handler but then distinguish which input the change is coming from using the name*/
+    /*we're targeting each input field by their name and taking the value in it*/
     const name = el.target.name
     const value = el.target.value
+    /*because we are using a single state object that contains multiple properties, we're spreading (...temp) the existing state back into the new state value, merging it manually, when calling setTemp. */
     setTemp({
       ...temp,
+      /*create a dynamic key name in the object. Because the form name props match the state property keys, the title input will set the title state and so on.*/
       [name]: value
     })
   }
@@ -172,9 +161,6 @@ function App() {
   }
 
  
-
-
-
 
   const addItem = () => {
     if (title === "") return
@@ -295,7 +281,7 @@ function App() {
         <DragDropContext onDragEnd={handleDragEnd}>
           {_.map(state, (data, key) => {
             return (
-              <Section index={key} data={data} oncard={onCard} />
+              <Section index={key} data={data} onOpen={onOpen} onCard={onCard} />
             )
           })}
           <Trash index={"trash"} data={state} />
