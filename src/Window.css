@@ -95,11 +95,20 @@
     border: none;
     border-radius: 4px;
     background-color: #EAE7DC;
-    height: 25px;
+    height: 28.8px;
   }
 
   .Modal input[type=text]:focus {
     background-color: #D8C3A4;
+  }
+
+  .Modal input#category {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #EAE7DC;
+    height: 28.8px;
+    width: 90%;
   }
 
   .Modal select {
@@ -109,6 +118,16 @@
     border: none;
     border-radius: 4px;
     background-color: #EAE7DC;
+<<<<<<< HEAD
+=======
+    margin: 0;
+  }
+
+  input[date]:focus, 
+  select:focus {
+    background-color: #d9b08c;
+    outline-color: #8e8d8a;
+>>>>>>> 463e4d28baa5f141001bba2feb9c12af0f579b79
   }
 
   .Modal input[type=date] {
@@ -117,7 +136,13 @@
     border: none;
     border-radius: 4px;
     background-color: #EAE7DC;
-    height: 25px;
+    height: 28.8px;
+  }
+
+  .Modal input#category:focus,
+  input:focus {
+    background-color: #d9b08c;
+    outline-color: #8e8d8a;
   }
 
   .form-container-icon{
@@ -129,12 +154,12 @@
 
   .formedittask{
       position:absolute;
-      left:92%;
+      left:91.5%;
   }
 
   .formeditcategory{
     position:absolute;
-    left:92%;
+    left:91.5%;
 }
 
   .modalupdate-btn {

@@ -14,10 +14,10 @@ header {
     align-items: center;
     padding-left: 10px;
     padding-top: 5px;
-    font-family: 'Playfair Display', serif;
+    font-family: -webkit-pictograph;
     font-size: 1.2em;
     font-weight: bold;
-    color: #e85a4f;
+    color: #8e8d8a;
   }
 
 .logo {
@@ -47,7 +47,7 @@ label {
 }
 
 .text {
-    border: 1px solid #e85a4f;
+    border: 1px solid #8e8d8a;
     border-radius: 7px;
     background-color: #eae7dc;
     height: 2em;
@@ -55,12 +55,16 @@ label {
     margin: 10px;
 }
 
+<<<<<<< HEAD
 .user {
+=======
+.Header input#user {
+>>>>>>> 463e4d28baa5f141001bba2feb9c12af0f579b79
     margin: 10px;
 }
 
 select {
-    border: 1px solid #e85a4f;
+    border: 1px solid #8e8d8a;
     border-radius: 7px;
     background-color: #eae7dc;
     height: 2em;
@@ -101,7 +105,7 @@ select {
 }
 
 .date {
-    border: 1px solid #e85a4f;
+    border: 1px solid #8e8d8a;
     border-radius: 7px;
     background-color: #eae7dc;
     margin: 10px;
@@ -114,7 +118,7 @@ select {
 }
 
 .color {
-    border: 1px solid #e85a4f;
+    border: 1px solid #8e8d8a;
     border-radius: 7px;
     background-color: #eae7dc;
     width: 35px;

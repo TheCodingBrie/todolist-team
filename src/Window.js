@@ -45,7 +45,7 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                     <form onKeyUp={onKeyUp}>
                         <div className="form-row">
                             <div className="form-col-25">
-                                <label>Task</label>
+                                <label>Task:</label>
                             </div>
                             <div className="form-col-75">
                                 <div className="form-container-icon">
@@ -56,18 +56,20 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                         </div>
                         <div className="formrow">
                             <div className="form-col-25">
-                                <label>category</label>
+                                <label>Category: </label>
                             </div>
                             <div className="form-col-75">
                                 <div className="form-container-icon">
+                                <input type="color" value={temp?.tagColor} id="categorycolor" onChange={(el) => handleChange(el)} name="categorycolor" />
                                     <input type="text" value={temp?.category} id="category" onChange={(el) => handleChange(el)} name="category" />
+                                    
                                     <FaRegEdit className="formeditcategory" />
                                 </div>
                             </div>
                         </div>
                         <div className="formrow">
                             <div className="form-col-25">
-                                <label>Priority</label>
+                                <label>Priority:</label>
                             </div>
                             <div className="form-col-75">
                                 <select id="importance" name="importance" selected value={temp?.importance} onChange={(el) => handleChange(el)} >
@@ -79,7 +81,7 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                         </div>
                         <div className="form-row">
                             <div className="form-col-25">
-                                <label for="country">Deadline</label>
+                                <label for="country">Deadline:</label>
                             </div>
                             <div className="form-col-75">
                                 <input type="date" value={temp?.deadline} id="deadline" name="deadline" onChange={(el) => handleChange(el)} />
@@ -87,10 +89,28 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                         </div>
                         <div className="form-row">
                             <div className="form-col-25">
-                                <label>User</label>
+                                <label>User:</label>
                             </div>
                             <div className="form-col-75">
+<<<<<<< HEAD
                                 <input type="text" value={temp.user} id="user" name="user" onChange={(el) => handleChange(el)} />
+=======
+                                <select type="select" value={temp?.user} id="user" name="user" onChange={(el) => handleChange(el)} >
+                                    <option value="Valerio">Valerio</option>
+                                    <option value="Guillaume">Guillaume</option>
+                                    <option value="Derek">Derek</option>
+                                    <option value="Stas">Stas</option>
+                                    <option value="Andrea">Andrea</option>
+                                    <option value="Jai">Jai</option>
+                                    <option value="Fran">Fran</option>
+                                    <option value="Lavanya">Lavanya</option>
+                                    <option value="Kai">Kai</option>
+                                    <option value="Kate">Kate</option>
+                                    <option value="Jenny">Jenny</option>
+                                    <option value="Divya">Divya</option>
+                                    <option value="Gerardo">Gerardo</option>
+                                </select>
+>>>>>>> 463e4d28baa5f141001bba2feb9c12af0f579b79
                             </div>
                         </div>
                     </form>
