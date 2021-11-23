@@ -16,6 +16,7 @@ export default function Header({
   setTitle,
   menuButton,
   handleExpand,
+  tagColor,
   setTagColor,
   hexToRGB,
   setImportance,
@@ -87,7 +88,8 @@ export default function Header({
           />
           <input
             className="color"
-            placeholder="#fffff"
+            placeholder="#000"
+            //value={tagColor}
             type="color"
             onChange={(e) => setTagColor(hexToRGB(e.target.value))}
           />

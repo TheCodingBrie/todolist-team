@@ -61,7 +61,7 @@ export default function Window({ show, onClose, temp, handleChange, handleUpdate
                             </div>
                             <div className="form-col-75">
                                 <div className="form-container-icon">
-                                    <input type="color" value={temp?.tagColor} id="categorycolor" /*onChange={(el) => handleChange((hexToRGB(el.target.value)))}*/ name="color" />
+                                    <input type="color" value={temp?.tagColor} id="tagColor" onChange={(el) => handleChange(el)} name="tagColor" />
                                     <input type="text" value={temp?.category} id="category" onChange={(el) => handleChange(el)} name="category" />
 
                                     <FaRegEdit className="formeditcategory" />

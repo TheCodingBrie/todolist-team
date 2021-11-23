@@ -15,7 +15,7 @@ function App() {
   /*to add a new task*/
   const [title, setTitle] = useState("");
   const [category, setcategory] = useState("");
-  const [tagColor, setTagColor] = useState("#ffffff");
+  const [tagColor, setTagColor] = useState("#000");
   const [importance, setImportance] = useState("low");
   const [deadline, setDeadline] = useState("");
   const [user, setUser] = useState("Jenny");
